@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -308,10 +307,14 @@ public class SistemaController implements Initializable {
     private void modificarProducto(MouseEvent event) {
         lanzarVentana("modificarProducto.fxml");
     }
-
-
-  
     
-    
+    @FXML
+    private void agregarEmpleado(MouseEvent event) {
+        lanzarVentana("agregarEmpleado.fxml");
+    }
+    @FXML
+    private void modificarEmpleado(MouseEvent event) {
+        lanzarVentana("modificarEmpleado.fxml");
+    }
 }
 
