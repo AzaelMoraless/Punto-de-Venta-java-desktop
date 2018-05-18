@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="847.0" style="-fx-background-color: #1B2B44;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.LoginController">
+   <children>
+      <AnchorPane layoutX="424.0" prefHeight="455.0" prefWidth="418.0" style="-fx-background-color: #2F4159;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ComboBox fx:id="cargo" layoutX="186.0" layoutY="315.0" prefWidth="150.0" style="-fx-background-color: #FFFFFF;" />
+            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="92.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario:">
+               <font>
+                  <Font name="Roboto Condensed Light" size="20.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="80.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:">
+               <font>
+                  <Font name="Roboto Condensed Light" size="19.0" />
+               </font>
+            </Text>
+            <AnchorPane layoutY="495.0" prefHeight="38.0" prefWidth="418.0" style="-fx-background-color: #41536B;" AnchorPane.bottomAnchor="0.0">
+               <children>
+                  <VBox fx:id="hboxRecuperar" layoutX="156.0" layoutY="6.0" onMouseClicked="#recuperar_contrasenia" prefHeight="25.0" prefWidth="132.0">
+                     <children>
+                        <Label text="Olvidé mi contraseña" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
+                           <font>
+                              <Font name="Roboto Condensed Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Separator prefHeight="3.0" prefWidth="137.0" style="-fx-background-color: #FFFFFF;" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="120.0" fitWidth="95.0" layoutX="162.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icon.png" />
+               </image></ImageView>
+            <AnchorPane layoutX="-1.0" prefHeight="52.0" prefWidth="418.0" style="-fx-background-color: #398CF5;">
+               <children>
+                  <Text fill="WHITE" layoutX="107.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ACCESO AL SISTEMA">
+                     <font>
+                        <Font name="Roboto Medium" size="21.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <TextField fx:id="tfUsuario" layoutX="185.0" layoutY="196.0" onKeyPressed="#detectaTecla" onKeyReleased="#detectaTecla" promptText="usuario">
+               <font>
+                  <Font name="Roboto Bold Condensed" size="14.0" />
+               </font>
+            </TextField>
+            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="113.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cargo:">
+               <font>
+                  <Font name="Roboto Condensed Light" size="20.0" />
+               </font>
+            </Text>
+            <PasswordField fx:id="tfPassword" layoutX="185.0" layoutY="264.0" promptText="contraseña">
+               <font>
+                  <Font name="Roboto Bold Condensed" size="14.0" />
+               </font>
+            </PasswordField>
+            <JFXButton fx:id="btIngresar" layoutX="167.0" layoutY="448.0" onAction="#iniciar" style="-fx-background-color: #398CF5;" text="INGRESAR" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Bold Condensed" size="18.0" />
+               </font>
+            </JFXButton>
+            <VBox fx:id="etiq_error" layoutX="95.0" layoutY="392.0" prefHeight="25.0" prefWidth="244.0" visible="false">
+               <children>
+                  <Label text="USUARIO O CONTRASEÑA INCORRECTA" textFill="#e57373">
+                     <font>
+                        <Font name="Roboto Condensed Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Separator prefWidth="200.0" style="-fx-background-color: #e57373;" visible="false" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="354.0" fitWidth="388.0" layoutX="66.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logoBlanco.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="100.0" layoutY="517.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Accesorios Automotrices &quot;Las Aguilas&quot;">
+         <font>
+            <Font name="Roboto Light" size="14.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

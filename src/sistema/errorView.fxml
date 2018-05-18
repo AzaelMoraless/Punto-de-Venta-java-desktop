@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.ErrorController">
+   <children>
+      <AnchorPane layoutX="7.0" prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #e57373;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="48.0" fitWidth="68.0" layoutX="150.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="5.0">
+               <image>
+                  <Image url="@../images/circulo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="31.0" fitWidth="26.0" layoutX="161.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="15.0">
+               <image>
+                  <Image url="@../images/tacha.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnCerrar" layoutX="135.0" layoutY="127.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="24.0" prefWidth="79.0" style="-fx-background-color: #e57373; -fx-background-radius: 10;" text="Cerrar" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="136.0">
+         <font>
+            <Font name="Roboto Condensed Bold" size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblMsg" layoutX="123.0" layoutY="80.0" text="Mensaje de Error">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.View_successfulController">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="10.0" prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #9ED266;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="48.0" fitWidth="68.0" layoutX="150.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="5.0">
+               <image>
+                  <Image url="@../images/circulo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="31.0" fitWidth="26.0" layoutX="161.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="15.0">
+               <image>
+                  <Image url="@../images/true.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnCerrar" layoutX="136.0" layoutY="118.0" mnemonicParsing="false" onAction="#cerrar" prefHeight="24.0" prefWidth="79.0" style="-fx-background-color: #9ED266; -fx-background-radius: 10;" text="Cerrar" textFill="WHITE">
+         <font>
+            <Font name="Roboto Condensed Bold" size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="labelMsg" layoutX="123.0" layoutY="80.0" text="Mensaje  exitoso">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

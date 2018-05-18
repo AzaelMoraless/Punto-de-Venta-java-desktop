@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.ConfirmationController">
+   <children>
+      <Button layoutX="187.0" layoutY="117.0" mnemonicParsing="false" onAction="#opcionPress2" style="-fx-background-color: #31BE7A;" text="Confirmar" textFill="WHITE">
+         <font>
+            <Font name="Roboto Bold Condensed" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="103.0" layoutY="117.0" mnemonicParsing="false" onAction="#opcionPress1" style="-fx-background-color: #e57373;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="Roboto Bold Condensed" size="15.0" />
+         </font>
+      </Button>
+      <AnchorPane layoutX="17.0" layoutY="10.0" prefHeight="69.0" prefWidth="348.0" style="-fx-background-color: #e57373;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="57.0" layoutX="147.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/atencion.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label fx:id="lblPregunta" layoutX="112.0" layoutY="80.0" text="¿Quieres eliminar?">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

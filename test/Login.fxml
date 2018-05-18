@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="712.0" prefWidth="962.0" style="-fx-background-color: #1C2B43;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.LoginController">
+   <children>
+      <AnchorPane layoutX="489.0" layoutY="81.0" prefHeight="455.0" prefWidth="418.0" style="-fx-background-color: #2F4159;">
+         <children>
+            <ComboBox fx:id="cargo" layoutX="186.0" layoutY="315.0" prefWidth="150.0" />
+            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="92.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario:">
+               <font>
+                  <Font name="Roboto Condensed Light" size="20.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="80.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:">
+               <font>
+                  <Font name="Roboto Condensed Light" size="19.0" />
+               </font>
+            </Text>
+            <AnchorPane layoutY="495.0" prefHeight="38.0" prefWidth="418.0" style="-fx-background-color: #41536B;">
+               <children>
+                  <Text fill="WHITE" layoutX="187.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SISTEMA">
+                     <font>
+                        <Font name="Roboto Condensed Light" size="12.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="-1.0" prefHeight="52.0" prefWidth="418.0" style="-fx-background-color: #398CF5;">
+               <children>
+                  <Text fill="WHITE" layoutX="107.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ACCESO AL SISTEMA">
+                     <font>
+                        <Font name="Roboto Medium" size="21.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <TextField fx:id="tfUsuario" layoutX="185.0" layoutY="196.0" promptText="usuario" style="-fx-background-radius: 10;">
+               <font>
+                  <Font name="Roboto Bold Condensed" size="14.0" />
+               </font>
+            </TextField>
+            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="113.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cargo:">
+               <font>
+                  <Font name="Roboto Condensed Light" size="20.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="113.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Accesorios Automotrices &quot;Las Aguilas&quot;">
+               <font>
+                  <Font name="Roboto Light" size="13.0" />
+               </font>
+            </Text>
+            <PasswordField fx:id="tfPassword" layoutX="185.0" layoutY="264.0" promptText="contraseña" style="-fx-background-radius: 10;">
+               <font>
+                  <Font name="Roboto Bold Condensed" size="14.0" />
+               </font>
+            </PasswordField>
+            <ImageView fitHeight="101.0" fitWidth="147.0" layoutX="158.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icon.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="btnIngresar" layoutX="178.0" layoutY="404.0" onAction="#iniciar" prefHeight="38.0" prefWidth="108.0" style="-fx-background-color: #398CF5;" text="INGRESAR" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Bold Condensed" size="19.0" />
+               </font></JFXButton>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="255.0" fitWidth="356.0" layoutX="77.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/aguilas.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
