@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema;
+package controller;
 
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 /**
@@ -42,6 +44,14 @@ public class ModificarProveedorController implements Initializable {
     ErrorController er = new ErrorController();
     //View_successfulController msgExitoso = View_successfulController();
     View_successfulController msg_exitoso = new View_successfulController();
+    @FXML
+    private AnchorPane modificarPanel;
+    @FXML
+    private JFXButton btnBuscar;
+    @FXML
+    private JFXButton btnCerrar;
+    @FXML
+    private JFXButton btnGuardar;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         

@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,41 +18,37 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
  *
  * @author Azael
  */
-public class View_successfulController implements Initializable {
-
+public class ErrorController implements Initializable{
+    @FXML
+    private Label lblMsg;
+    static String mensajeErr;
     @FXML
     private Button btnCerrar;
-    @FXML
-    private Label labelMsg;
-    static String mensaje;
-    /**
-     * Initializes the controller class.
-     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-       labelMsg.setText(mensaje);
-    }    
-
-    @FXML
-    private void cerrar(ActionEvent event) {
-         ((Node)  (event.getSource())).getScene().getWindow().hide();
+    public void initialize(URL location, ResourceBundle resources) {
+        lblMsg.setText(mensajeErr);
     }
-    public  void msgExitoso(String msg){
+    @FXML
+    public void cerrar(Event event){
+        ((Node)  (event.getSource())).getScene().getWindow().hide();
+    }
+    
+    public  void msgError(String mensaje){
         try{ 
-            View_successfulController.mensaje = msg;
-            FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("view_successful.fxml"));
-            Parent root1= (Parent)fxmlLoader.load();
+            ErrorController.mensajeErr = mensaje;
+            URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\errorView.fxml").toUri().toURL();
+            Parent root = FXMLLoader.load(url);
             Stage stage= new Stage();
-            stage.setScene(new Scene(root1));
-            stage.setTitle("Exitoso");
+            stage.setScene(new Scene(root));
+            stage.setTitle("Error");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.show();

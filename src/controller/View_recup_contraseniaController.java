@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema;
+package controller;
 
 import Recuperacion.Controlador;
 import Recuperacion.Correo;
@@ -39,6 +39,8 @@ public class View_recup_contraseniaController implements Initializable {
     Connection con = cc.conexion();
     Correo c = new Correo();
     ErrorController error = new ErrorController();
+    @FXML
+    private Button btnRecuperar;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }    

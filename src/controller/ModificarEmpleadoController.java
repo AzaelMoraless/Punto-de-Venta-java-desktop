@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema;
+package controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -19,22 +19,28 @@ import javafx.scene.input.MouseEvent;
  *
  * @author Azael
  */
-public class AgregarProductoController implements Initializable {
+public class ModificarEmpleadoController implements Initializable {
 
     @FXML
-    private TextField txtExistencias;
+    private TextField txtBuscar;
     @FXML
-    private TextField txtDescripcion;
+    private JFXButton btnBuscar;
     @FXML
-    private TextField txtPrecioC;
-    @FXML
-    private TextField txtNombre;
-    @FXML
-    private JFXButton btnCancelar;
+    private JFXButton btnCerrar;
     @FXML
     private JFXButton btnGuardar;
     @FXML
-    private TextField txtPrecioV;
+    private TextField txtPuesto;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtNickname;
+    @FXML
+    private TextField txtTelefono;
+    @FXML
+    private TextField txtContrasenia;
+    @FXML
+    private TextField txtNombre;
 
     /**
      * Initializes the controller class.
@@ -45,13 +51,19 @@ public class AgregarProductoController implements Initializable {
     }    
 
     @FXML
-    private void cancelar(MouseEvent event) {
-        ((Node)  (event.getSource())).getScene().getWindow().hide();
+    private void detectaTecla(KeyEvent event) {
     }
 
     @FXML
-    private void aceptar(MouseEvent event) {
-        
+    private void buscar(MouseEvent event) {
+    }
+
+    @FXML
+    private void cerrar(MouseEvent event) {
+    }
+
+    @FXML
+    private void guardar(MouseEvent event) {
     }
     
 }

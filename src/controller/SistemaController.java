@@ -1,7 +1,8 @@
-package sistema;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -112,7 +113,7 @@ public class SistemaController implements Initializable {
     @FXML 
     public void cerrarSesion(MouseEvent event) throws IOException{
        ((Node)  (event.getSource())).getScene().getWindow().hide();
-       lanzarVentana("Login.fxml");
+       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\Login.fxml");
     }
     
     @FXML 
@@ -264,11 +265,11 @@ public class SistemaController implements Initializable {
     }
     @FXML 
     public void vAgregarProveedor(MouseEvent event){
-       lanzarVentana("agregarProveedor.fxml");
+       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProveedor.fxml");
     }
     @FXML
     private void vModificarProveedor(MouseEvent event) {
-        lanzarVentana("modificarProveedor.fxml");
+        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProveedor.fxml");
     }
     @FXML 
     public void cargarTablaProveedores(MouseEvent evt){
@@ -319,12 +320,12 @@ public class SistemaController implements Initializable {
     }
     
     
-    public void lanzarVentana(String view_fxml){
+    public void lanzarVentana(String ruta_view_fxml){
          try{ 
-            FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource(view_fxml));
-            Parent root1= (Parent)fxmlLoader.load();
+            URL url = Paths.get(ruta_view_fxml).toUri().toURL();
+            Parent root = FXMLLoader.load(url);
             Stage stage= new Stage();
-            stage.setScene(new Scene(root1));
+            stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.show();
@@ -333,21 +334,21 @@ public class SistemaController implements Initializable {
 
     @FXML
     private void agregarProducto(MouseEvent event) {
-        lanzarVentana("agregarProducto.fxml");
+        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProducto.fxml");
     }
 
     @FXML
     private void modificarProducto(MouseEvent event) {
-        lanzarVentana("modificarProducto.fxml");
+        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProducto.fxml");
     }
     
     @FXML
     private void agregarEmpleado(MouseEvent event) {
-        lanzarVentana("agregarEmpleado.fxml");
+        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarEmpleado.fxml");
     }
     @FXML
     private void modificarEmpleado(MouseEvent event) {
-        lanzarVentana("modificarEmpleado.fxml");
+        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarEmpleado.fxml");
     }
 }
 

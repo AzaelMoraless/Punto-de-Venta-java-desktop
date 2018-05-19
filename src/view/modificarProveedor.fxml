@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="modificarPanel" prefHeight="360.0" prefWidth="544.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.ModificarProveedorController">
+<AnchorPane fx:id="modificarPanel" prefHeight="360.0" prefWidth="544.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModificarProveedorController">
    <children>
       <TextField />
       <AnchorPane prefHeight="51.0" prefWidth="600.0" style="-fx-background-color: #3B8CBB;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

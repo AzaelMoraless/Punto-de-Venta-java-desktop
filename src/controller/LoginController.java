@@ -1,7 +1,9 @@
-package sistema;
+package controller;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,6 +47,10 @@ public class LoginController implements Initializable {
     ErrorController er = new ErrorController();
     Conexion cc = new Conexion();
     Connection con = cc.conexion();
+    @FXML
+    private VBox hboxRecuperar;
+    @FXML
+    private JFXButton btIngresar;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        
@@ -61,7 +67,7 @@ public class LoginController implements Initializable {
     }
     @FXML 
     public void iniciar(Event evento) throws IOException{
-        String user_name = tfUsuario.getText();
+       String user_name = tfUsuario.getText();
         String password = tfPassword.getText();
         Statement stmt;
         ResultSet rs;
@@ -73,11 +79,11 @@ public class LoginController implements Initializable {
                     if(cargo.getSelectionModel().getSelectedItem().equalsIgnoreCase(rs.getString("puesto"))){
                         ((Node)  (evento.getSource())).getScene().getWindow().hide();
                         SistemaController.user_n = user_name;
-                        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("sistema.fxml"));
-                        Parent root1= (Parent)fxmlLoader.load();
+                        URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
+                        Parent root = FXMLLoader.load(url);
                         Stage stage= new Stage();
                         stage.setResizable(false);
-                        stage.setScene(new Scene(root1));
+                        stage.setScene(new Scene(root));
                         stage.show();
                     }else{
                       er.msgError("Tipo de usuario incorrecto");
@@ -95,10 +101,10 @@ public class LoginController implements Initializable {
     @FXML 
     public void recuperar_contrasenia(MouseEvent evt){
          try{ 
-            FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("view_recup_contrasenia.fxml"));
-            Parent root1= (Parent)fxmlLoader.load();
+            URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\view_recup_contrasenia.fxml").toUri().toURL();
+            Parent root = FXMLLoader.load(url);
             Stage stage= new Stage();
-            stage.setScene(new Scene(root1));
+            stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.show();

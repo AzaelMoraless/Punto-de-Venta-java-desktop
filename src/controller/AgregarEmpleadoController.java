@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema;
+package controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -19,51 +20,39 @@ import javafx.scene.input.MouseEvent;
  *
  * @author Azael
  */
-public class ModificarEmpleadoController implements Initializable {
+public class AgregarEmpleadoController implements Initializable {
 
-    @FXML
-    private TextField txtBuscar;
-    @FXML
-    private JFXButton btnBuscar;
-    @FXML
-    private JFXButton btnCerrar;
     @FXML
     private JFXButton btnGuardar;
     @FXML
-    private TextField txtPuesto;
-    @FXML
-    private TextField txtEmail;
-    @FXML
-    private TextField txtNickname;
-    @FXML
-    private TextField txtTelefono;
+    private JFXButton btnCancelar;
     @FXML
     private TextField txtContrasenia;
     @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtPuesto;
+    @FXML
     private TextField txtNombre;
+    @FXML
+    private TextField txtTelefono;
+    @FXML
+    private TextField txtContrasenia111;
+    @FXML
+    private Label txtNick;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
 
     @FXML
-    private void detectaTecla(KeyEvent event) {
+    private void aceptar(MouseEvent event) {
     }
 
     @FXML
-    private void buscar(MouseEvent event) {
-    }
-
-    @FXML
-    private void cerrar(MouseEvent event) {
-    }
-
-    @FXML
-    private void guardar(MouseEvent event) {
+    private void cancelar(MouseEvent event) {
+         ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
     
 }

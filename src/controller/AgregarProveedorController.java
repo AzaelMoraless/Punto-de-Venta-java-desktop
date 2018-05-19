@@ -3,25 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistema;
+package controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import modelo.TextFieldFormatter;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.text.MaskFormatter;
+import modelo.Delimitador;
 
 public class AgregarProveedorController implements Initializable {
     @FXML
@@ -55,11 +62,13 @@ public class AgregarProveedorController implements Initializable {
     private HBox errorTel;
     @FXML
     private HBox errorEmail;
+   
     
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+      
     }    
     
     @FXML 
@@ -85,14 +94,59 @@ public class AgregarProveedorController implements Initializable {
     
     @FXML
     public void validaEmail(KeyEvent event){
-          Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                         + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         Matcher mather = pattern.matcher(txtEmail.getText().trim());
-        if (mather.find() == true) {
-            errorEmail.setVisible(true);
-        } else {
-           errorEmail.setVisible(false);
-        } 
+        
+        if (mather.find() == true) 
+            errorEmail.setVisible(false);
+        else 
+           errorEmail.setVisible(true); 
     }
+
+    @FXML
+    private void validaNom(KeyEvent event) {
+        Pattern pattern =Pattern.compile("[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9 ]{3,}"); 
+        Matcher mather = pattern.matcher(txtRazonS.getText().trim());  
+        if (mather.find() == true) 
+            errorName.setVisible(false);
+        else 
+           errorName.setVisible(true); 
+    }
+
+    @FXML
+    private void validaTel(KeyEvent event) {
+        Pattern pattern =Pattern.compile("([0-9]{3})-([0-9]{3})-([0-9]{4})}"); 
+        Matcher mather = pattern.matcher(txtTelefono.getText().trim());  
+        if (mather.find() == true) 
+            errorTel.setVisible(false);
+        else 
+           errorTel.setVisible(true); 
+    }
+
+    @FXML
+    private void validaDir(KeyEvent event) {
+        
+    }
+
+    @FXML
+    private void validaRFC(KeyEvent event) {
+        Pattern pattern =Pattern.compile("^([A-ZÑ\\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\\d]{3}))?$"); 
+        Matcher mather = pattern.matcher(txtRFC.getText().trim());  
+        if (mather.find() == true) 
+            errorRFC.setVisible(false);
+        else 
+           errorRFC.setVisible(true); 
+    }
+    
+    @FXML 
+    private void tfTelefonoKeyRelased(){
+        TextFieldFormatter tff= new TextFieldFormatter();
+        tff.setMask("(###)-####-###");
+        tff.setCaracteresValidos("0123456789");
+        tff.setTf(txtTelefono);
+        tff.formatter();
+    }
+    
     
 }
