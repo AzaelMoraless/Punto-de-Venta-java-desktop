@@ -58,6 +58,8 @@ public class SistemaController implements Initializable {
     @FXML private AnchorPane proveedoresPanel; // 4
     @FXML private AnchorPane empleadosPanel; //5
     @FXML private AnchorPane ayudaPanel; //6
+    @FXML private AnchorPane panelAcercade; //7
+     
     @FXML private HBox hBoxVentas,hBoxProductos,hBoxProv,hBoxCompras,hBoxEmpleados,hBoxAyuda,hBoxAcerca;
     @FXML private TextField txtBusquedaProv;
     View_successfulController msg_exitoso = new View_successfulController();
@@ -73,6 +75,11 @@ public class SistemaController implements Initializable {
     private TextField txtBuscarEmpleado;
     @FXML
     private TextField txtBuscarProducto;
+    @FXML
+    private TextField txtBusquedaProv1;
+
+    
+    
     @Override 
     public void initialize(URL url, ResourceBundle rb) {
        label_user.setText(user_n); 
@@ -123,6 +130,7 @@ public class SistemaController implements Initializable {
         visible(4, false);
         visible(5, false);
         visible(6, false);
+        visible(7, false);
     }
     @FXML 
     public void mostrarPanelProductos(MouseEvent event){ // 2
@@ -139,6 +147,7 @@ public class SistemaController implements Initializable {
         visible(4, false);
         visible(5, false);
         visible(6, false);
+        visible(7, false);
     }
     
     @FXML 
@@ -156,6 +165,7 @@ public class SistemaController implements Initializable {
         visible(4, false);
         visible(5, false);
         visible(6, false);
+        visible(7, false);
     }
     @FXML 
     public void mostrarPanelProveedores(MouseEvent event){//4
@@ -173,6 +183,7 @@ public class SistemaController implements Initializable {
         visible(3, false);
         visible(5, false);
         visible(6, false);
+        visible(7, false);
          }
     @FXML 
     public void mostrarPanelEmpleados(MouseEvent event){//5
@@ -190,6 +201,7 @@ public class SistemaController implements Initializable {
         visible(3, false);
         visible(4, false);
         visible(6, false);
+        visible(7, false);
     }
     @FXML 
     public void mostrarPanelAyuda(MouseEvent event){//6
@@ -199,6 +211,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxCompras);
         setSeleccionColor(hBoxAcerca);
+        
         hBoxAyuda.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
         visible(1, false);
         visible(6, true);  
@@ -206,8 +219,27 @@ public class SistemaController implements Initializable {
          visible(3, false);
         visible(4, false);
         visible(5, false);
+        visible(7, false);
     }
     
+    
+    @FXML 
+    public void mostrarPanelAcercade(MouseEvent event){//6
+        setSeleccionColor(hBoxVentas);
+        setSeleccionColor(hBoxProductos);
+        setSeleccionColor(hBoxProv);
+        setSeleccionColor(hBoxEmpleados);
+        setSeleccionColor(hBoxCompras);
+        setSeleccionColor(hBoxAyuda);
+        hBoxAcerca.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
+        visible(1, false);
+        visible(6, false);  
+        visible(2, false);
+        visible(3, false);
+        visible(4, false);
+        visible(5, false);
+        visible(7, true);
+    }
      public void visible(int n,boolean b){ // visibilidad de paneles
         switch(n){
             case 1: ventasPanel.setVisible(b);
@@ -221,6 +253,8 @@ public class SistemaController implements Initializable {
             case 5: empleadosPanel.setVisible(b);
             break; 
             case 6: ayudaPanel.setVisible(b);
+            break;
+            case 7: panelAcercade.setVisible(b);
             break;             
          }
     }

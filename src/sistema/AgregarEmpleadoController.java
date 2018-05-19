@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -30,6 +32,14 @@ public class AgregarEmpleadoController implements Initializable {
     private TextField txtEmail;
     @FXML
     private TextField txtPuesto;
+    @FXML
+    private TextField txtNombre;
+    @FXML
+    private TextField txtTelefono;
+    @FXML
+    private TextField txtContrasenia111;
+    @FXML
+    private Label txtNick;
 
     /**
      * Initializes the controller class.
@@ -45,6 +55,7 @@ public class AgregarEmpleadoController implements Initializable {
 
     @FXML
     private void cancelar(MouseEvent event) {
+         ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
     
 }

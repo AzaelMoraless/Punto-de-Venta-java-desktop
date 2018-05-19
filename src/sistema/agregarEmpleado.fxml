@@ -69,5 +69,35 @@
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
+      <TextField fx:id="txtNombre" layoutX="118.0" layoutY="139.0" prefHeight="31.0" prefWidth="136.0" style="-fx-border-color: #3974A3;">
+         <font>
+            <Font name="Roboto Condensed Light" size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="txtTelefono" layoutX="118.0" layoutY="188.0" prefHeight="31.0" prefWidth="136.0" style="-fx-border-color: #3974A3;">
+         <font>
+            <Font name="Roboto Condensed Light" size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="txtContrasenia111" layoutX="118.0" layoutY="240.0" prefHeight="31.0" prefWidth="136.0" style="-fx-border-color: #3974A3;">
+         <font>
+            <Font name="Roboto Condensed Light" size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="40.0" layoutY="144.0" prefHeight="21.0" prefWidth="59.0" text="Nombre:">
+         <font>
+            <Font name="Roboto Condensed" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="193.0" prefHeight="21.0" prefWidth="72.0" text="Telefono:">
+         <font>
+            <Font name="Roboto Condensed" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtNick" layoutX="34.0" layoutY="245.0" prefHeight="21.0" prefWidth="72.0" text="NickName:">
+         <font>
+            <Font name="Roboto Condensed" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
