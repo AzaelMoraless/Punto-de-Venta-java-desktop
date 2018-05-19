@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -10,12 +12,12 @@
 
 <AnchorPane fx:id="agregarProvPanel" prefHeight="360.0" prefWidth="544.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.AgregarProveedorController">
    <children>
-      <JFXButton fx:id="btnGuardar" layoutX="181.0" layoutY="284.0" onMouseClicked="#aceptar" style="-fx-background-color: #5FBC5F;" text="Guardar" textFill="WHITE" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="181.0">
+      <JFXButton fx:id="btnGuardar" layoutX="181.0" layoutY="284.0" onMouseClicked="#aceptar" style="-fx-background-color: #5FBC5F;" text="Guardar" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="181.0">
          <font>
             <Font name="Roboto Bold Condensed" size="19.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnCancelar" layoutX="284.0" layoutY="284.0" onMouseClicked="#cancelar" style="-fx-background-color: #3974A3;" text="Cerrar" textFill="WHITE" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="168.0">
+      <JFXButton fx:id="btnCancelar" layoutX="284.0" layoutY="284.0" onMouseClicked="#cancelar" style="-fx-background-color: #3974A3;" text="Cerrar" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="168.0">
          <font>
             <Font name="Roboto Bold Condensed" size="19.0" />
          </font>
@@ -30,7 +32,7 @@
          <children>
             <ImageView fitHeight="42.0" fitWidth="54.0" layoutX="14.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0">
                <image>
-                  <Image url="@../images/productos.png" />
+                  <Image url="@../images/proveedores.png" />
                </image>
             </ImageView>
             <Label layoutX="66.0" layoutY="15.0" text="Agregar Proveedor" textFill="WHITE">
@@ -40,45 +42,131 @@
             </Label>
          </children>
       </AnchorPane>
-      <TextField fx:id="txtRazonS" layoutX="112.0" layoutY="137.0" prefHeight="4.0" prefWidth="155.0" style="-fx-border-color: #3974A3;" AnchorPane.topAnchor="137.0">
+      <TextField fx:id="txtRazonS" layoutX="115.0" layoutY="165.0" prefHeight="4.0" prefWidth="155.0" style="-fx-border-color: #3974A3;" AnchorPane.topAnchor="165.0">
          <font>
             <Font name="Roboto Condensed Light" size="15.0" />
          </font>
       </TextField>
-      <Label layoutX="37.0" layoutY="142.0" prefHeight="21.0" prefWidth="59.0" text="Nombre:" AnchorPane.leftAnchor="37.0">
+      <Label layoutX="36.0" layoutY="168.0" prefHeight="21.0" prefWidth="59.0" text="Nombre:" AnchorPane.leftAnchor="36.0">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="287.0" layoutY="142.0" prefHeight="24.0" prefWidth="65.0" text="Telefono: ">
+      <Label layoutX="286.0" layoutY="168.0" prefHeight="24.0" prefWidth="65.0" text="Telefono: ">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtTelefono" layoutX="358.0" layoutY="137.0" prefHeight="34.0" prefWidth="165.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="22.0">
+      <TextField fx:id="txtTelefono" layoutX="361.0" layoutY="162.0" prefHeight="34.0" prefWidth="156.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="23.0">
          <font>
             <Font name="Roboto Condensed Light" size="15.0" />
          </font>
       </TextField>
-      <Label layoutX="34.0" layoutY="208.0" prefHeight="24.0" prefWidth="65.0" text="Dirección:">
+      <Label layoutX="36.0" layoutY="230.0" prefHeight="24.0" prefWidth="65.0" text="Dirección:">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtDireccion" layoutX="112.0" layoutY="203.0" prefHeight="34.0" prefWidth="156.0" style="-fx-border-color: #3974A3;">
+      <TextField fx:id="txtDireccion" layoutX="114.0" layoutY="225.0" prefHeight="34.0" prefWidth="156.0" style="-fx-border-color: #3974A3;">
          <font>
             <Font name="Roboto Condensed Light" size="15.0" />
          </font>
       </TextField>
-      <Label layoutX="309.0" layoutY="208.0" prefHeight="24.0" prefWidth="42.0" text="Email:">
+      <Label layoutX="311.0" layoutY="230.0" prefHeight="24.0" prefWidth="42.0" text="Email:">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtEmail" layoutX="358.0" layoutY="203.0" prefHeight="34.0" prefWidth="156.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="25.0">
+      <TextField fx:id="txtEmail" layoutX="365.0" layoutY="225.0" onKeyPressed="#validaEmail" onKeyReleased="#validaEmail" onKeyTyped="#validaEmail" prefHeight="34.0" prefWidth="156.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="23.0">
          <font>
             <Font name="Roboto Condensed Light" size="15.0" />
          </font>
       </TextField>
+      <Label layoutX="64.0" layoutY="117.0" prefHeight="21.0" prefWidth="34.0" text="RFC:">
+         <font>
+            <Font name="Roboto Condensed" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtRFC" layoutX="115.0" layoutY="112.0" prefHeight="4.0" prefWidth="155.0" style="-fx-border-color: #3974A3;">
+         <font>
+            <Font name="Roboto Condensed Light" size="15.0" />
+         </font>
+      </TextField>
+      <HBox fx:id="errorRFC" layoutX="135.0" layoutY="142.0" prefHeight="25.0" prefWidth="118.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="86.0" text="RFC invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorName" layoutX="124.0" layoutY="199.0" prefHeight="25.0" prefWidth="118.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="100.0" text="Nombre invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorDir" layoutX="116.0" layoutY="261.0" prefHeight="25.0" prefWidth="130.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="106.0" text="Dirección invalida" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="2.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorTel" layoutX="371.0" layoutY="196.0" prefHeight="25.0" prefWidth="130.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="106.0" text="Teléfono invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="2.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorEmail" layoutX="396.0" layoutY="257.0" prefHeight="25.0" prefWidth="118.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="86.0" text="Email invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -11,12 +11,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javax.swing.JOptionPane;
 
 public class AgregarProveedorController implements Initializable {
@@ -39,28 +43,56 @@ public class AgregarProveedorController implements Initializable {
     Validaciones validar =  new Validaciones();
     ErrorController er = new ErrorController();
     View_successfulController msg_exitoso = new View_successfulController();
+    @FXML
+    private TextField txtRFC;
+    @FXML
+    private HBox errorRFC;
+    @FXML
+    private HBox errorName;
+    @FXML
+    private HBox errorDir;
+    @FXML
+    private HBox errorTel;
+    @FXML
+    private HBox errorEmail;
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }    
     
     @FXML 
     public void aceptar(MouseEvent event){
-        String razon_social,direccion,telefono,email;
-        razon_social = txtRazonS.getText().trim(); direccion = txtDireccion.getText().trim(); telefono = txtTelefono.getText().trim();
+        String rfc,nombre,direccion,telefono,email;
+        rfc = txtRFC.getText().trim(); nombre = txtRazonS.getText().trim(); direccion = txtDireccion.getText().trim(); telefono = txtTelefono.getText().trim();
         email = txtEmail.getText().trim();
-        if(validar.validarDatosProveedor(txtRazonS,txtTelefono,txtDireccion,txtEmail))
+        if(validar.validarDatosProveedor(txtRFC,txtRazonS,txtTelefono,txtDireccion,txtEmail))
            return;
         try{ 
             Statement consulta=(Statement)con.createStatement();
-            consulta.executeUpdate("insert into aguilas.proveedor (razon_social,direccion,telefono,email) values('"+razon_social+"','"+direccion+"','"+telefono+"','"+email+"')");
+            consulta.executeUpdate("insert into aguilas.proveedor (rfc,nombre,direccion,telefono,email) values('"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')");
             msg_exitoso.msgExitoso("Proveedor agregado");
         }catch(SQLException e){
            JOptionPane.showMessageDialog(null,e.getMessage());
         }    
     }
+    
     @FXML
     public void cancelar(MouseEvent event){
          ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
+    
+    @FXML
+    public void validaEmail(KeyEvent event){
+          Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher mather = pattern.matcher(txtEmail.getText().trim());
+        if (mather.find() == true) {
+            errorEmail.setVisible(true);
+        } else {
+           errorEmail.setVisible(false);
+        } 
+    }
+    
 }

@@ -942,8 +942,8 @@
             </HBox>
             <TableView fx:id="tblViewProveedores" layoutX="42.0" layoutY="161.0" prefHeight="571.0" prefWidth="755.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
                <columns>
-                  <TableColumn fx:id="clmnId" prefWidth="120.0" text="ID PROVEEDOR" />
-                  <TableColumn fx:id="clmnRazon_s" prefWidth="171.0" text="RAZON SOCIAL" />
+                  <TableColumn fx:id="clmnId" prefWidth="142.0" text="RFC PROVEEDOR" />
+                  <TableColumn fx:id="clmnRazon_s" prefWidth="149.0" text="NOMBRE" />
                   <TableColumn fx:id="clmnDireccion" prefWidth="138.0" text="CIUDAD" />
                   <TableColumn fx:id="clmnTelefono" prefWidth="133.0" text="TELEFONO" />
                   <TableColumn fx:id="clmnEmail" prefWidth="213.0" text="EMAIL" />

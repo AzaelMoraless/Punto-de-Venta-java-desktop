@@ -299,7 +299,6 @@ public class SistemaController implements Initializable {
         }
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("confirmacion");
-            //alert.setHeaderText("Look, a Confirmation Dialog");
             alert.setContentText("¿Quiere eliminar el registro?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){

@@ -78,8 +78,8 @@ public class ModificarProveedorController implements Initializable {
                         + ",direccion = ?"
                         + ",email = ?"
                         + "WHERE id_prov=?";
-        if(validar.validarDatosProveedor(txtRazonS1,txtTelefono1,txtDireccion1,txtEmail1))
-           return;
+       // if(validar.validarDatosProveedor(txtRFC,txtRazonS1,txtTelefono1,txtDireccion1,txtEmail1))
+         //  return;
         try{
             PreparedStatement pstm = con.prepareStatement(sSQL) ;
             pstm.setString(1, txtRazonS1.getText().trim());
