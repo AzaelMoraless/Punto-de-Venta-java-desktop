@@ -18,35 +18,23 @@ import javafx.collections.ObservableList;
  * @author Azael
  */
 public class Producto {
-    String id_producto;
-    String  nombre;
+    String id_p;
     String descripcion;
-    String id_proveedor;
-    String precio_venta;
-    String precio_compra;
+    String precio_c;
+    String precio_v;
     String existencias;
     
-    public Producto(String id_producto,String nombre,String descripcion,String id_proveedor,String precio_venta,String precio_compra,
+    public Producto(String id_producto,String descripcion,String precio_c,String precio_v,
                     String existencias){
-        this.id_producto = id_producto;
-        this.nombre = nombre;
+        this.id_p = id_producto;
         this.descripcion = descripcion;
-        this.id_proveedor = id_proveedor;
-        this.precio_venta = precio_venta;
-        this.precio_compra = precio_compra;
+        this.precio_c = precio_c;
+        this.precio_v = precio_v;
         this.existencias = existencias;
     }
-
-    public String getId_proveedor() {
-        return id_proveedor;
-    }
-
+    
     public String getId_producto() {
-        return id_producto;
-    }
-
-    public String getNombre() {
-        return nombre;
+        return id_p;
     }
 
     public String getDescripcion() {
@@ -54,11 +42,11 @@ public class Producto {
     }
 
     public String getPrecio_venta() {
-        return precio_venta;
+        return precio_v;
     }
 
     public String getPrecio_compra() {
-        return precio_compra;
+        return precio_c;
     }
 
     public String getExistencias() {
@@ -73,9 +61,7 @@ public class Producto {
                 lista.add(
                     new Producto(
                         result.getString("id_p"),
-                        result.getString("nombre"),
                         result.getString("descripcion"),
-                        result.getString("id_prov"),
                         result.getString("precio_c"),
                         result.getString("precio_v"),
                         result.getString("existencias")

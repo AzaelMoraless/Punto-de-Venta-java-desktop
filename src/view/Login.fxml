@@ -69,7 +69,7 @@
                   <Font name="Roboto Condensed Light" size="20.0" />
                </font>
             </Text>
-            <PasswordField fx:id="tfPassword" layoutX="185.0" layoutY="264.0" promptText="contraseña">
+            <PasswordField fx:id="tfPassword" layoutX="185.0" layoutY="264.0" onKeyPressed="#initKey" promptText="contraseña">
                <font>
                   <Font name="Roboto Bold Condensed" size="14.0" />
                </font>

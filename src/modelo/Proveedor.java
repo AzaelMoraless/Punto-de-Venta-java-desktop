@@ -14,25 +14,26 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 
 public class Proveedor {
-    private String id_proveedor; 
-    private String razon_s;
+    private String rfc; 
+    private String nombre;
     private String direccion;
     private String telefono;
     private String email;
     
-    public Proveedor(String id_proveedor,String razon_s,String direccion,String telefono,String email){
-        this.id_proveedor = id_proveedor;
-        this.razon_s = razon_s; 
+    public Proveedor(String rfc_p,String nombre_p,String direccion,String telefono,String email){
+        this.rfc = rfc_p;
+        this.nombre = nombre_p; 
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
     }
-        public String getId_proveedor() {
-        return id_proveedor;
+    
+    public String getRfc() {
+        return rfc;
     }
 
-    public String getRazon_s() {
-        return razon_s;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getTelefono() {
@@ -54,8 +55,8 @@ public class Proveedor {
             while(result.next()){
                 lista.add(
                     new Proveedor(
-                        result.getString("id_prov"),
-                        result.getString("razon_social"),
+                        result.getString("rfc"),
+                        result.getString("nombre"),
                         result.getString("direccion"),
                         result.getString("telefono"),
                         result.getString("email")

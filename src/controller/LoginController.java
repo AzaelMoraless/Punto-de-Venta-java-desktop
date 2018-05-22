@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -23,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -67,7 +69,47 @@ public class LoginController implements Initializable {
     }
     @FXML 
     public void iniciar(Event evento) throws IOException{
-       String user_name = tfUsuario.getText();
+        init(evento);
+    }
+    
+    @FXML
+    private void initKey(KeyEvent event) throws MalformedURLException, IOException {
+        if (event.getCode().equals(KeyCode.ENTER)){
+            String user_name = tfUsuario.getText();
+        String password = tfPassword.getText();
+        Statement stmt;
+        ResultSet rs;
+        try{ 
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT puesto FROM aguilas.empleado WHERE (username  = '"+ user_name +"' and contrasena ='"+ password +"')");   
+            if(rs!=null){
+                if(rs.next()){
+                    if(cargo.getSelectionModel().getSelectedItem().equalsIgnoreCase(rs.getString("puesto"))){
+                        ((Node)  (event.getSource())).getScene().getWindow().hide();
+                        SistemaController.user_n = user_name;
+                        URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
+                        Parent root = FXMLLoader.load(url);
+                        Stage stage= new Stage();
+                        stage.setResizable(false);
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    }else{
+                      er.msgError("Tipo de usuario incorrecto");
+                    }
+                }else{
+                    tfUsuario.setText("");
+                    tfPassword.setText("");
+                    etiq_error.setVisible(true);   
+                }
+            }
+        }catch(SQLException e){
+            message("Error", e.getMessage());
+        }
+        }
+    }
+    
+    public void init(Event evento) throws MalformedURLException, IOException{
+        String user_name = tfUsuario.getText();
         String password = tfPassword.getText();
         Statement stmt;
         ResultSet rs;
@@ -118,5 +160,7 @@ public class LoginController implements Initializable {
         alert.initStyle(StageStyle.UTILITY);
         alert.showAndWait();
     }
+
+    
     
 }

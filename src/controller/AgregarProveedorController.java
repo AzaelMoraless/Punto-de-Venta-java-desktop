@@ -31,59 +31,44 @@ import javax.swing.text.MaskFormatter;
 import modelo.Delimitador;
 
 public class AgregarProveedorController implements Initializable {
-    @FXML
-    private AnchorPane agregarProvPanel;
-    @FXML
-    private TextField txtRazonS;
-    @FXML
-    private TextField txtDireccion;
-    @FXML
-    private TextField txtTelefono;
-    @FXML
-    private TextField txtEmail;
-    @FXML
-    private JFXButton btnGuardar;
-    @FXML
-    private JFXButton btnCancelar;
+    @FXML private TextField txtRazonS;
+    @FXML private TextField txtDireccion;
+    @FXML private TextField txtTelefono;
+    @FXML private TextField txtEmail;
+    @FXML private TextField txtRFC;
+    @FXML private HBox errorRFC;
+    @FXML private HBox errorName;
+    @FXML private HBox errorDir;
+    @FXML private HBox errorTel;
+    @FXML private HBox errorEmail;
+    
+    
     Conexion cc = new Conexion();
     Connection con = cc.conexion();
-    Validaciones validar =  new Validaciones();
-    ErrorController er = new ErrorController();
+    ErrorController msgErr = new ErrorController();
     View_successfulController msg_exitoso = new View_successfulController();
-    @FXML
-    private TextField txtRFC;
-    @FXML
-    private HBox errorRFC;
-    @FXML
-    private HBox errorName;
-    @FXML
-    private HBox errorDir;
-    @FXML
-    private HBox errorTel;
-    @FXML
-    private HBox errorEmail;
    
-    
-    
-    
+   
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-      
+    public void initialize(URL url, ResourceBundle rb) { 
     }    
     
     @FXML 
-    public void aceptar(MouseEvent event){
+    public void aceptar(MouseEvent event){  // agregar un nuevo prveedor
         String rfc,nombre,direccion,telefono,email;
         rfc = txtRFC.getText().trim(); nombre = txtRazonS.getText().trim(); direccion = txtDireccion.getText().trim(); telefono = txtTelefono.getText().trim();
         email = txtEmail.getText().trim();
-        if(validar.validarDatosProveedor(txtRFC,txtRazonS,txtTelefono,txtDireccion,txtEmail))
-           return;
+        if(validarInput()==false){
+            msgErr.msgError("Campo(s) incorrectos");
+            return;
+        } 
         try{ 
             Statement consulta=(Statement)con.createStatement();
-            consulta.executeUpdate("insert into aguilas.proveedor (rfc,nombre,direccion,telefono,email) values('"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')");
+            consulta.executeUpdate("insert into aguilas.proveedor (rfc,nombre,direccion,telefono,email) values('"+rfc+"','"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')");
             msg_exitoso.msgExitoso("Proveedor agregado");
+            limpiarCampos();
         }catch(SQLException e){
-           JOptionPane.showMessageDialog(null,e.getMessage());
+           msgErr.msgError(e.getMessage());
         }    
     }
     
@@ -116,22 +101,28 @@ public class AgregarProveedorController implements Initializable {
 
     @FXML
     private void validaTel(KeyEvent event) {
-        Pattern pattern =Pattern.compile("([0-9]{3})-([0-9]{3})-([0-9]{4})}"); 
+        Pattern pattern =Pattern.compile("([(][0-9]{3}[)])-([0-9]{4})-([0-9]{3})"); 
         Matcher mather = pattern.matcher(txtTelefono.getText().trim());  
         if (mather.find() == true) 
             errorTel.setVisible(false);
         else 
-           errorTel.setVisible(true); 
+            errorTel.setVisible(true); 
     }
 
     @FXML
-    private void validaDir(KeyEvent event) {
-        
+    private void validaDir(KeyEvent event){
+        Pattern pattern =Pattern.compile("[#a-zA-ZñÑáéíóúÁÉÍÓÚ0-9 ]{3,}"); 
+        Matcher mather = pattern.matcher(txtDireccion.getText().trim());  
+        if (mather.find() == true) 
+            errorDir.setVisible(false);
+        else 
+           errorDir.setVisible(true); 
     }
 
     @FXML
     private void validaRFC(KeyEvent event) {
-        Pattern pattern =Pattern.compile("^([A-ZÑ\\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\\d]{3}))?$"); 
+        modelo.Delimitador.limitTextField(txtRFC, 13);
+        Pattern pattern =Pattern.compile("^([A-ZÑ\\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\\d]{3})$");
         Matcher mather = pattern.matcher(txtRFC.getText().trim());  
         if (mather.find() == true) 
             errorRFC.setVisible(false);
@@ -148,5 +139,20 @@ public class AgregarProveedorController implements Initializable {
         tff.formatter();
     }
     
+    public boolean validarInput(){
+        if(errorName.isVisible() || errorRFC.isVisible() || errorDir.isVisible() || errorEmail.isVisible() || errorTel.isVisible() ||
+           txtRFC.getText().equals("") || txtTelefono.getText().equals("") || txtDireccion.getText().equals("") || txtEmail.getText().equals("") ||
+           txtRazonS.getText().equals(""))
+            return false;
+        else 
+            return true;
+    }
     
+    public void limpiarCampos(){
+        txtRFC.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
+        txtEmail.setText("");
+        txtRazonS.setText("");
+    }
 }

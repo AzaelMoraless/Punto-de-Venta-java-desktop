@@ -27,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -36,21 +37,50 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.mail.FetchProfile.Item;
 import javax.swing.JOptionPane;
+import modelo.Empleado;
+import modelo.Producto;
 import modelo.Proveedor;
 
 public class SistemaController implements Initializable {
     private ObservableList<Proveedor> listaProveedor;
+    private ObservableList<Empleado> listaEmpleado;
+    private ObservableList<Producto> listaProducto;
+    
     @FXML private TableView<Proveedor> tblViewProveedores;
+    @FXML private TableView<Empleado> tblViewEmpleados;
+    @FXML private TableView<Producto> tblViewProductos;
+    
     
     private FilteredList<Proveedor> filteredData;
-    //columnas 
+    private FilteredList<Empleado> filteredDataEmpleado;
+    private FilteredList<Producto> filteredDataProducto;
     
-    @FXML private TableColumn<Proveedor,String> clmnId;  
-    @FXML private TableColumn<Proveedor,String> clmnRazon_s;  
-    @FXML private TableColumn<Proveedor,String> clmnDireccion;  
-    @FXML private TableColumn<Proveedor,String> clmnTelefono;  
-    @FXML private TableColumn<Proveedor,String> clmnEmail;  
+    //columnas proveedor
+    
+    @FXML private TableColumn<Proveedor,String> clmnRfcProv;  //clmnRfcProv
+    @FXML private TableColumn<Proveedor,String> clmnNombreProv;  
+    @FXML private TableColumn<Proveedor,String> clmnDirProv;  
+    @FXML private TableColumn<Proveedor,String> clmnTelProv;  
+    @FXML private TableColumn<Proveedor,String> clmnEmailProv;  
+    
+    ///columnas empleado
+    @FXML private TableColumn<Empleado,String> clmnIdEmpleado;
+    @FXML private TableColumn<Empleado,String> clmnNombreEmple;
+    @FXML private TableColumn<Empleado,String> clmnTelEmpleado;
+    @FXML private TableColumn<Empleado,String> clmnNickNEmple;
+    @FXML private TableColumn<Empleado,String> clmnContraEmple;
+    @FXML private TableColumn<Empleado,String> clmnEmailEmple;
+    @FXML private TableColumn<Empleado,String> clmnPuestoEmple;
+    
+    //columnas producto
+    @FXML private TableColumn<Producto,String> clmnIdProducto;
+    @FXML private TableColumn<Producto,String> clmnDescriProduct;
+    @FXML private TableColumn<Producto,String> clmnPrecioVProduct;
+    @FXML private TableColumn<Producto,String> clmnPrecioCProduct;
+    @FXML private TableColumn<Producto,String> clmnExisProduct;
+    
     //
     @FXML private Label label_user;
     @FXML private AnchorPane ventasPanel;  // 1 
@@ -64,20 +94,29 @@ public class SistemaController implements Initializable {
     @FXML private HBox hBoxVentas,hBoxProductos,hBoxProv,hBoxCompras,hBoxEmpleados,hBoxAyuda,hBoxAcerca;
     @FXML private TextField txtBusquedaProv;
     View_successfulController msg_exitoso = new View_successfulController();
+    
     private boolean flagLoadProv;
+    private boolean flagLoadEmple;
+    private boolean flagLoadProduct;
     static String user_n;
+    
+    //conexion a la base de datos 
     Conexion cc = new Conexion();
     Connection con = cc.conexion();
+    
     ConfirmationController confirma = new ConfirmationController();
     ErrorController er = new ErrorController();
+    
+
+    @FXML private TextField txtBuscarEmpleado;
+    @FXML private TextField txtBusquedaProv1;
+    @FXML private TextField txtBuscarProducto;
     @FXML
     private HBox hBoxAgregarProducto;
-    @FXML
-    private TextField txtBuscarEmpleado;
-    @FXML
-    private TextField txtBuscarProducto;
-    @FXML
-    private TextField txtBusquedaProv1;
+
+    
+    
+  
 
     
     
@@ -95,9 +134,9 @@ public class SistemaController implements Initializable {
                 return true;
             }
             String lowerCaseFilter =newValue.toLowerCase();
-            if(prove.getId_proveedor().contains(newValue))
+            if(prove.getRfc().contains(newValue))
                 return true;
-            if(prove.getRazon_s().toLowerCase().contains(lowerCaseFilter))
+            if(prove.getNombre().toLowerCase().contains(lowerCaseFilter))
                 return true;
             return false;
              });
@@ -107,9 +146,57 @@ public class SistemaController implements Initializable {
             tblViewProveedores.setItems(sortedData);
         }else{
             return;
-        }
-      
+        } 
     }
+    
+    @FXML
+    public void filtrarEmpleado(){
+        if(flagLoadEmple){
+        txtBuscarEmpleado.textProperty().addListener((observableValue,oldValue,newValue)->{
+        filteredDataEmpleado.setPredicate((Predicate<? super Empleado>) emple->{
+            if(newValue== null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter =newValue.toLowerCase();
+            if(emple.getId_e().contains(newValue))
+                return true;
+            if(emple.getNombre().toLowerCase().contains(lowerCaseFilter))
+                return true;
+            return false;
+             });
+            });
+            SortedList<Empleado>  sortedData = new SortedList<>(filteredDataEmpleado);
+            sortedData.comparatorProperty().bind(tblViewEmpleados.comparatorProperty());
+            tblViewEmpleados.setItems(sortedData);
+        }else{
+            return;
+        } 
+    }
+    
+    @FXML
+    public void filtrarProducto(){  // filtrar productos
+        if(flagLoadProduct){
+        txtBuscarProducto.textProperty().addListener((observableValue,oldValue,newValue)->{
+        filteredDataProducto.setPredicate((Predicate<? super Producto>) produc->{
+            if(newValue== null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter =newValue.toLowerCase();
+            if(produc.getId_producto().contains(newValue))
+                return true;
+            if(produc.getDescripcion().toLowerCase().contains(lowerCaseFilter))
+                return true;
+            return false;
+             });
+            });
+            SortedList<Producto>  sortedData = new SortedList<>(filteredDataProducto);
+            sortedData.comparatorProperty().bind(tblViewProductos.comparatorProperty());
+            tblViewProductos.setItems(sortedData);
+        }else{
+            return;
+        } 
+    }
+    
     @FXML 
     public void cerrarSesion(MouseEvent event) throws IOException{
        ((Node)  (event.getSource())).getScene().getWindow().hide();
@@ -222,8 +309,6 @@ public class SistemaController implements Initializable {
         visible(5, false);
         visible(7, false);
     }
-    
-    
     @FXML 
     public void mostrarPanelAcercade(MouseEvent event){//6
         setSeleccionColor(hBoxVentas);
@@ -263,35 +348,66 @@ public class SistemaController implements Initializable {
     public void setSeleccionColor(HBox hbox){  // cambia de color el HBOX seleccionado
         hbox.setBackground(new Background(new BackgroundFill(Color.web("#1E282C"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));
     }
+   
     @FXML 
-    public void vAgregarProveedor(MouseEvent event){
-       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProveedor.fxml");
-    }
-    @FXML
-    private void vModificarProveedor(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProveedor.fxml");
-    }
-    @FXML 
-    public void cargarTablaProveedores(MouseEvent evt){
-         //inicializa lista
+    public void cargarTablaProveedores(MouseEvent evt){ // cargar datos proveedores 
+       //inicializa lista
        listaProveedor = FXCollections.observableArrayList();
        Proveedor.llenarTablaProveedores(con, listaProveedor);
        //enlazar observable con tableview
         tblViewProveedores.setItems(listaProveedor); 
        //enlazar columnas con atributo
-        clmnId.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("id_proveedor"));
-        clmnRazon_s.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("razon_s"));
-        clmnDireccion.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("direccion"));
-        clmnTelefono.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("telefono"));
-        clmnEmail.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("email"));
-        
+      
+        clmnRfcProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("rfc"));
+        clmnNombreProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("nombre"));  
+        clmnDirProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("direccion"));
+        clmnTelProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("telefono"));
+        clmnEmailProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("email"));
+     
         filteredData =new FilteredList<>(listaProveedor,e->true);
         flagLoadProv = true;
     }
     
     @FXML 
-    public void deleteProveedor(MouseEvent evt){
-        
+    public void cargarTablaEmpleados(MouseEvent evt){ // cargar datos proveedores 
+       //inicializa lista
+       listaEmpleado = FXCollections.observableArrayList();
+       Empleado.llenarTablaEmpleados(con, listaEmpleado);
+       //enlazar observable con tableview
+        tblViewEmpleados.setItems(listaEmpleado); 
+       //enlazar columnas con atributo
+        clmnIdEmpleado.setCellValueFactory(new PropertyValueFactory<Empleado,String>("id_e"));
+        clmnNombreEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("nombre")); 
+        clmnTelEmpleado.setCellValueFactory(new PropertyValueFactory<Empleado,String>("telefono"));  
+        clmnNickNEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("username"));
+        clmnContraEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("contrasena")); 
+        clmnEmailEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("email_e"));
+        clmnPuestoEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("puesto")); 
+     
+        filteredDataEmpleado =new FilteredList<>(listaEmpleado,e->true);
+        flagLoadEmple = true;
+    }
+    
+    @FXML 
+    public void cargarTablaProductos(MouseEvent evt){ // cargar datos  de productos
+       //inicializa lista
+       listaProducto = FXCollections.observableArrayList();
+       Producto.llenarTablaProductos(con, listaProducto);
+       //enlazar observable con tableview
+        tblViewProductos.setItems(listaProducto); 
+       //enlazar columnas con atributo
+      
+        clmnIdProducto.setCellValueFactory(new PropertyValueFactory<Producto,String>("id_p"));
+        clmnDescriProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("descripcion"));
+        clmnPrecioVProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_v"));
+        clmnPrecioCProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_c"));
+        clmnExisProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("existencias"));
+        filteredDataProducto =new FilteredList<>(listaProducto,e->true);
+        flagLoadProduct = true;
+    }
+    
+    @FXML 
+    public void deleteProveedor(MouseEvent evt){  // eliminar proveedor 
         ObservableList<Proveedor> proveedorSelected;
         proveedorSelected = tblViewProveedores.getSelectionModel().getSelectedItems();
         if(proveedorSelected.isEmpty()){
@@ -300,15 +416,19 @@ public class SistemaController implements Initializable {
         }
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("confirmacion");
-            alert.setContentText("¿Quiere eliminar el registro?");
+            alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO?" +  "\nProveedor \nRFC: " +tblViewProveedores.getSelectionModel().getSelectedItem().getRfc()
+                                + "\t\t Nombre: "+ tblViewProveedores.getSelectionModel().getSelectedItem().getNombre()
+                                + "\nTelefono: " + tblViewProveedores.getSelectionModel().getSelectedItem().getTelefono() 
+                                + "\t Dirección: " + tblViewProveedores.getSelectionModel().getSelectedItem().getDireccion() );
             Optional<ButtonType> result = alert.showAndWait();
+            
+            
             if (result.get() == ButtonType.OK){
-                 String id = tblViewProveedores.getSelectionModel().getSelectedItem().getId_proveedor();
-                int id_p = Integer.parseInt(id);
+                 String rfc = tblViewProveedores.getSelectionModel().getSelectedItem().getRfc();
                 proveedorSelected.forEach(listaProveedor::remove);
                     try{
-                        PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.proveedor WHERE id_prov = ?");
-                        st.setInt(1,id_p);
+                        PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.proveedor WHERE rfc = ?");
+                        st.setString(1,rfc);
                         st.executeUpdate();  
                          msg_exitoso.msgExitoso("Registro eliminado");
                     }catch(SQLException e){
@@ -319,6 +439,44 @@ public class SistemaController implements Initializable {
             }    
     }
     
+    @FXML 
+    public void deleteEmpleado(MouseEvent evt){  // eliminar Empleado 
+        ObservableList<Empleado> empleadoSelected;
+        empleadoSelected = tblViewEmpleados.getSelectionModel().getSelectedItems();
+        Empleado empleado = tblViewEmpleados.getSelectionModel().getSelectedItem();
+        
+        if(empleadoSelected.isEmpty()){
+            er.msgError("No se ha seleccionado  \n el elemento a eliminar");
+            return;
+        }
+        if(empleado.getPuesto().equals("administrador")){
+            er.msgError("No se puede eliminar \n el elemento");
+            return;
+        }
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("confirmacion");
+            alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO? \nEmpleado \n id_e: " + empleado.getId_e() + "\t Nombre: " + empleado.getNombre()
+                                 + "\n Telefono: " + empleado.getTelefono() +"\t Nickname: " + empleado.getUsername());
+            
+            
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK){
+                String id = tblViewEmpleados.getSelectionModel().getSelectedItem().getId_e();
+                int id_em = Integer.parseInt(id);
+                empleadoSelected.forEach(listaEmpleado::remove);
+                    try{
+                        PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.empleado WHERE id_e = ?");
+                        st.setInt(1,id_em);
+                        st.executeUpdate();  
+                        msg_exitoso.msgExitoso("Registro eliminado");
+                    }catch(SQLException e){
+                        System.out.println("Error: " + e.getMessage());
+                    }
+            } else {
+                System.err.println("false");
+            }    
+    }
     
     public void lanzarVentana(String ruta_view_fxml){
          try{ 
@@ -329,9 +487,34 @@ public class SistemaController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.show();
-        }catch(IOException e){}
+        }catch(IOException e){
+             System.err.println("ERROR " + e.getMessage());
+        }
     }
+     @FXML 
+    public void vAgregarProveedor(MouseEvent event){
+       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProveedor.fxml");
+    }
+    @FXML
+    private void vModificarProveedor(MouseEvent event) {   
+        try{  
+            ObservableList<Proveedor> provSelected;
+            provSelected = tblViewProveedores.getSelectionModel().getSelectedItems();
+            Proveedor prov = tblViewProveedores.getSelectionModel().getSelectedItem();
 
+            if(provSelected.isEmpty()){
+                er.msgError("No se ha seleccionado  \n el elemento a modificar");
+                return;
+            }else{
+             String rfc_p = prov.getRfc();
+             ModificarProveedorController.rfc = rfc_p;
+             lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProveedor.fxml");
+            }
+        }catch(Exception e){
+            System.err.println("EROROR: " + e.getMessage());
+        }
+    }
+    
     @FXML
     private void agregarProducto(MouseEvent event) {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProducto.fxml");
@@ -343,12 +526,29 @@ public class SistemaController implements Initializable {
     }
     
     @FXML
+    private void modificarEmpleado(MouseEvent event) {
+        try{  
+            ObservableList<Empleado> empleadoSelected;
+            empleadoSelected = tblViewEmpleados.getSelectionModel().getSelectedItems();
+            Empleado empleado = tblViewEmpleados.getSelectionModel().getSelectedItem();
+
+            if(empleadoSelected.isEmpty()){
+                er.msgError("No se ha seleccionado  \n el elemento a eliminar");
+                return;
+            }else{
+             String id = empleado.getId_e();
+             int id_e = Integer.parseInt(id);
+             ModificarEmpleadoController.id_eVar = id_e;
+             lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarEmpleado.fxml");
+            }
+        }catch(Exception e){
+            System.err.println("EROROR: " + e.getMessage());
+        }
+    }
+
+    @FXML
     private void agregarEmpleado(MouseEvent event) {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarEmpleado.fxml");
-    }
-    @FXML
-    private void modificarEmpleado(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarEmpleado.fxml");
     }
 }
 
