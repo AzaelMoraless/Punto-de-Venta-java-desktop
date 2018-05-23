@@ -18,15 +18,15 @@ import javafx.collections.ObservableList;
  * @author Azael
  */
 public class Producto {
-    String id_p;
+    String idProduc;
     String descripcion;
     String precio_c;
     String precio_v;
     String existencias;
     
-    public Producto(String id_producto,String descripcion,String precio_c,String precio_v,
+    public Producto(String idProducto,String descripcion,String precio_c,String precio_v,
                     String existencias){
-        this.id_p = id_producto;
+        this.idProduc = idProducto;
         this.descripcion = descripcion;
         this.precio_c = precio_c;
         this.precio_v = precio_v;
@@ -34,7 +34,7 @@ public class Producto {
     }
     
     public String getId_producto() {
-        return id_p;
+        return idProduc;
     }
 
     public String getDescripcion() {
@@ -67,7 +67,7 @@ public class Producto {
                         result.getString("existencias")
                     )
                 );
-            }         
+            }  
         }catch(SQLException ex) {
             Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
         }

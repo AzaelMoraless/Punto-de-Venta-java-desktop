@@ -27,7 +27,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -37,8 +36,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javax.mail.FetchProfile.Item;
-import javax.swing.JOptionPane;
 import modelo.Empleado;
 import modelo.Producto;
 import modelo.Proveedor;
@@ -75,11 +72,11 @@ public class SistemaController implements Initializable {
     @FXML private TableColumn<Empleado,String> clmnPuestoEmple;
     
     //columnas producto
-    @FXML private TableColumn<Producto,String> clmnIdProducto;
     @FXML private TableColumn<Producto,String> clmnDescriProduct;
-    @FXML private TableColumn<Producto,String> clmnPrecioVProduct;
-    @FXML private TableColumn<Producto,String> clmnPrecioCProduct;
     @FXML private TableColumn<Producto,String> clmnExisProduct;
+    @FXML private TableColumn<Producto,String> clmnIdProduc;
+    @FXML private TableColumn<Producto,String> clmnPrecioVProduc;
+    @FXML private TableColumn<Producto,String> clmnPrecioCProd;
     
     //
     @FXML private Label label_user;
@@ -113,6 +110,7 @@ public class SistemaController implements Initializable {
     @FXML private TextField txtBuscarProducto;
     @FXML
     private HBox hBoxAgregarProducto;
+  
 
     
     
@@ -388,23 +386,7 @@ public class SistemaController implements Initializable {
         flagLoadEmple = true;
     }
     
-    @FXML 
-    public void cargarTablaProductos(MouseEvent evt){ // cargar datos  de productos
-       //inicializa lista
-       listaProducto = FXCollections.observableArrayList();
-       Producto.llenarTablaProductos(con, listaProducto);
-       //enlazar observable con tableview
-        tblViewProductos.setItems(listaProducto); 
-       //enlazar columnas con atributo
-      
-        clmnIdProducto.setCellValueFactory(new PropertyValueFactory<Producto,String>("id_p"));
-        clmnDescriProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("descripcion"));
-        clmnPrecioVProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_v"));
-        clmnPrecioCProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_c"));
-        clmnExisProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("existencias"));
-        filteredDataProducto =new FilteredList<>(listaProducto,e->true);
-        flagLoadProduct = true;
-    }
+    
     
     @FXML 
     public void deleteProveedor(MouseEvent evt){  // eliminar proveedor 
@@ -478,6 +460,40 @@ public class SistemaController implements Initializable {
             }    
     }
     
+    @FXML 
+    public void deleteProducto(MouseEvent evt){  // eliminar Producto 
+        ObservableList<Producto> productoSelected;
+        productoSelected = tblViewProductos.getSelectionModel().getSelectedItems();
+        Producto producto = tblViewProductos.getSelectionModel().getSelectedItem();
+        
+        if(productoSelected.isEmpty()){
+            er.msgError("No se ha seleccionado  \n el elemento a eliminar");
+            return;
+        }
+
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("confirmacion");
+            alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO? \nProducto \n id_prod: " 
+                                + producto.getId_producto()+ "\t Descripcion: " + producto.getDescripcion()
+                                + "\n Existencias: " + producto.getExistencias() +"\t Precio " + producto.getPrecio_venta());
+            
+            
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK){
+                String id = tblViewProductos.getSelectionModel().getSelectedItem().getId_producto();
+                int id_em = Integer.parseInt(id);
+                productoSelected.forEach(listaEmpleado::remove);
+                    try{
+                        PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.producto WHERE id_e = ?");
+                        st.setInt(1,id_em);
+                        st.executeUpdate();  
+                        msg_exitoso.msgExitoso("Registro eliminado");
+                    }catch(SQLException e){
+                         er.msgError(e.getMessage());
+                    }
+            }    
+    }
     public void lanzarVentana(String ruta_view_fxml){
          try{ 
             URL url = Paths.get(ruta_view_fxml).toUri().toURL();
@@ -549,6 +565,25 @@ public class SistemaController implements Initializable {
     @FXML
     private void agregarEmpleado(MouseEvent event) {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarEmpleado.fxml");
+    }
+
+    @FXML
+    private void cargarTablaProducts(MouseEvent event){  
+               //inicializa lista
+       listaProducto = FXCollections.observableArrayList();
+       Producto.llenarTablaProductos(con, listaProducto);
+       //enlazar observable con tableview
+        tblViewProductos.setItems(listaProducto); 
+       //enlazar columnas con atributo
+      
+        clmnIdProduc.setCellValueFactory(new PropertyValueFactory<Producto,String>("idProduc"));
+        clmnDescriProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("descripcion"));  
+        clmnPrecioCProd.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_c"));
+        clmnPrecioVProduc.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_v"));
+        clmnExisProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("existencias"));
+     
+        filteredDataProducto =new FilteredList<>(listaProducto,p->true);
+        flagLoadProduct = true;
     }
 }
 

@@ -575,7 +575,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="48.0" prefWidth="118.0">
+                  <HBox onMouseClicked="#deleteProducto" prefHeight="48.0" prefWidth="118.0">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -595,7 +595,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox onMouseClicked="#cargarTablaProductos" prefHeight="45.0" prefWidth="155.0">
+                  <HBox onMouseClicked="#cargarTablaProducts" prefHeight="45.0" prefWidth="155.0">
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -633,10 +633,10 @@
             </AnchorPane>
             <TableView fx:id="tblViewProductos" layoutX="40.0" layoutY="158.0" prefHeight="577.0" prefWidth="632.0" style="-fx-background-color: EFEDEE;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
               <columns>
-                <TableColumn fx:id="clmnIdProducto" prefWidth="60.0" text="ID " />
+                <TableColumn fx:id="clmnIdProduc" prefWidth="60.0" text="ID " />
                   <TableColumn fx:id="clmnDescriProduct" prefWidth="227.0" text="DESCRIPCIÓN" />
-                  <TableColumn fx:id="clmnPrecioVProduct" prefWidth="123.0" text="PRECIO" />
-                  <TableColumn fx:id="clmnPrecioCProduct" minWidth="9.0" prefWidth="106.0" text="IMPORTE" />
+                  <TableColumn fx:id="clmnPrecioVProduc" prefWidth="123.0" text="PRECIO" />
+                  <TableColumn fx:id="clmnPrecioCProd" minWidth="9.0" prefWidth="106.0" text="IMPORTE" />
                   <TableColumn fx:id="clmnExisProduct" prefWidth="115.0" text="EXISTENCIAS" />
               </columns>
             </TableView>
