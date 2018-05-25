@@ -39,7 +39,7 @@
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPrecioV" layoutX="122.0" layoutY="168.0" onKeyPressed="#validaPrecioV" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="274.0" AnchorPane.topAnchor="168.0">
+      <TextField fx:id="txtPrecioV" layoutX="122.0" layoutY="168.0" onKeyTyped="#validaPrecioV" prefHeight="25.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="274.0" AnchorPane.topAnchor="168.0">
          <font>
             <Font name="Roboto Condensed Light" size="15.0" />
          </font>
@@ -79,7 +79,7 @@
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPrecioC" layoutX="122.0" layoutY="243.0" prefHeight="34.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="272.0" AnchorPane.topAnchor="225.0">
+      <TextField fx:id="txtPrecioC" layoutX="122.0" layoutY="243.0" onKeyTyped="#validaPrecioC" prefHeight="34.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="272.0" AnchorPane.topAnchor="225.0">
          <font>
             <Font name="Roboto Condensed Light" size="15.0" />
          </font>

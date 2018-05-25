@@ -86,9 +86,11 @@ public class AgregarEmpleadoController implements Initializable {
         nombre = txtNombre.getText().trim(); telefono = txtTel.getText().trim(); nickname = txtNick.getText().trim();
         contrasenia = txtContrasenia.getText().trim(); email= txtEmail.getText().trim();
         
-        if(rbutton1.isSelected())
-            puesto = rbutton1.getText();
-        else if(rbutton2.isSelected())
+        if(rbutton1.isSelected()){
+            msgErr.msgError("No se puede agregar \n otro administrador");
+            return;
+            
+        }else if(rbutton2.isSelected())
             puesto = rbutton2.getText();
         
         if(validarInput()==false || puesto.equals("")){
@@ -99,7 +101,7 @@ public class AgregarEmpleadoController implements Initializable {
         try{ 
             Statement consulta=(Statement)con.createStatement();
             consulta.executeUpdate("insert into aguilas.empleado (nombre,telefono,username,contrasena,email_e,puesto) values('"+nombre+"','"+telefono+"','"+nickname+"','"+contrasenia+"','"+email+"','"+puesto+"')");
-            msg_exitoso.msgExitoso("Proveedor agregado");
+            msg_exitoso.msgExitoso("Empledo agregado");
             limpiarCampos();
         }catch(SQLException e){
            msgErr.msgError(e.getMessage());

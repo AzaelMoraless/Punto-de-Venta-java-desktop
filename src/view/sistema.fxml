@@ -170,6 +170,29 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </HBox>
+            <HBox fx:id="hBoxClientes" onMouseClicked="#mostrarPanelEmpleados" prefHeight="40.0" prefWidth="182.0">
+               <children>
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/empleados.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label alignment="CENTER" text="Clientes" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Condensed" size="22.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
             <HBox fx:id="hBoxAyuda" onMouseClicked="#mostrarPanelAyuda" prefHeight="40.0" prefWidth="182.0">
                <children>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
@@ -218,7 +241,7 @@
             </HBox>
             <HBox prefHeight="38.0" prefWidth="182.0">
                <VBox.margin>
-                  <Insets top="290.0" />
+                  <Insets top="150.0" />
                </VBox.margin>
                <children>
                   <ImageView fitHeight="34.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
@@ -243,22 +266,22 @@
       </VBox>
       <AnchorPane layoutX="192.0" layoutY="7.0" prefHeight="33.0" prefWidth="1039.0" style="-fx-background-color: #3C8DBC;" AnchorPane.bottomAnchor="800.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
          <children>
-            <Label layoutX="775.0" layoutY="3.0" text="Accesorios Automotrices " textFill="WHITE">
+            <Label layoutX="775.0" layoutY="9.0" text="Accesorios Automotrices " textFill="WHITE">
                <font>
                   <Font name="Roboto Condensed" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="37.0" fitWidth="40.0" layoutX="731.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="37.0" fitWidth="40.0" layoutX="731.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/eagle.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="32.0" fitWidth="40.0" layoutX="965.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="32.0" fitWidth="40.0" layoutX="965.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/user_session.png" />
                </image>
             </ImageView>
-            <Label fx:id="label_user" layoutX="1004.0" layoutY="7.0" text="AzaelMorales" textFill="WHITE">
+            <Label fx:id="label_user" layoutX="1004.0" layoutY="9.0" text="AzaelMorales" textFill="WHITE">
                <font>
                   <Font name="Roboto Condensed" size="17.0" />
                </font>
@@ -531,7 +554,7 @@
                </font>
             </TextField>
          </children></AnchorPane>
-      <AnchorPane fx:id="productosPanel" layoutX="216.0" layoutY="89.0" prefHeight="643.0" prefWidth="964.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="productosPanel" layoutX="216.0" layoutY="89.0" prefHeight="643.0" prefWidth="964.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <HBox layoutX="75.0" layoutY="18.0" prefHeight="40.0" prefWidth="632.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="642.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="80.0">
                <children>

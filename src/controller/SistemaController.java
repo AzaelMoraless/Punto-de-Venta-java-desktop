@@ -366,6 +366,23 @@ public class SistemaController implements Initializable {
         flagLoadProv = true;
     }
     
+    public void actualizarTablaProv(){
+         //inicializa lista
+       listaProveedor = FXCollections.observableArrayList();
+       Proveedor.llenarTablaProveedores(con, listaProveedor);
+       //enlazar observable con tableview
+        tblViewProveedores.setItems(listaProveedor); 
+       //enlazar columnas con atributo
+      
+        clmnRfcProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("rfc"));
+        clmnNombreProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("nombre"));  
+        clmnDirProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("direccion"));
+        clmnTelProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("telefono"));
+        clmnEmailProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("email"));
+     
+       // filteredData =new FilteredList<>(listaProveedor,e->true);
+        //flagLoadProv = true;
+    }
     @FXML 
     public void cargarTablaEmpleados(MouseEvent evt){ // cargar datos proveedores 
        //inicializa lista
@@ -385,7 +402,27 @@ public class SistemaController implements Initializable {
         filteredDataEmpleado =new FilteredList<>(listaEmpleado,e->true);
         flagLoadEmple = true;
     }
-    
+     @FXML
+    private void cargarTablaProducts(MouseEvent event){  
+               //inicializa lista
+       listaProducto = FXCollections.observableArrayList();
+       Producto.llenarTablaProductos(con, listaProducto);
+       //enlazar observable con tableview
+        tblViewProductos.setItems(listaProducto); 
+       //enlazar columnas con atributo
+        clmnIdProduc.setCellValueFactory(cellData -> cellData.getValue().id_producto());
+        //clmnIdProduc.setCellValueFactory(new PropertyValueFactory<Producto,String>("idProduc"));
+        clmnDescriProduct.setCellValueFactory(new PropertyValueFactory<Producto, String>("descripcion"));  
+       // clmnPrecioCProd.setCellValueFactory(new PropertyValueFactory<Producto, String>("precio_c"));
+        clmnPrecioCProd.setCellValueFactory(cellData -> cellData.getValue().precio_compra());
+        //clmnPrecioVProduc.setCellValueFactory(new PropertyValueFactory<Producto, String>("precio_v"));
+         clmnPrecioVProduc.setCellValueFactory(cellData -> cellData.getValue().precio_venta());
+        
+        clmnExisProduct.setCellValueFactory(new PropertyValueFactory<Producto, String>("existencias"));
+     
+        filteredDataProducto =new FilteredList<>(listaProducto,p->true);
+        flagLoadProduct = true;
+    }
     
     
     @FXML 
@@ -407,12 +444,13 @@ public class SistemaController implements Initializable {
             
             if (result.get() == ButtonType.OK){
                  String rfc = tblViewProveedores.getSelectionModel().getSelectedItem().getRfc();
-                proveedorSelected.forEach(listaProveedor::remove);
+                 proveedorSelected.forEach(listaProveedor::remove);
                     try{
                         PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.proveedor WHERE rfc = ?");
                         st.setString(1,rfc);
                         st.executeUpdate();  
                          msg_exitoso.msgExitoso("Registro eliminado");
+                         
                     }catch(SQLException e){
                         System.out.println("Error: " + e.getMessage());
                     }
@@ -474,8 +512,8 @@ public class SistemaController implements Initializable {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("confirmacion");
             alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO? \nProducto \n id_prod: " 
-                                + producto.getId_producto()+ "\t Descripcion: " + producto.getDescripcion()
-                                + "\n Existencias: " + producto.getExistencias() +"\t Precio " + producto.getPrecio_venta());
+                                + producto.getId_producto()+ "\t\t Descripcion: " + producto.getDescripcion()
+                                + "\n Existencias: " + producto.getExistencias() +"\t\t Precio " + producto.getPrecio_venta());
             
             
             Optional<ButtonType> result = alert.showAndWait();
@@ -502,6 +540,7 @@ public class SistemaController implements Initializable {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
+          
             stage.show();
         }catch(IOException e){
              System.err.println("ERROR " + e.getMessage());
@@ -510,6 +549,7 @@ public class SistemaController implements Initializable {
      @FXML 
     public void vAgregarProveedor(MouseEvent event){
        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProveedor.fxml");
+       
     }
     @FXML
     private void vModificarProveedor(MouseEvent event) {   
@@ -536,10 +576,10 @@ public class SistemaController implements Initializable {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProducto.fxml");
     }
 
-    @FXML
-    private void modificarProducto(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProducto.fxml");
-    }
+    //@FXML
+    //private void modificarProducto(MouseEvent event) {
+        
+   // }
     
     @FXML
     private void modificarEmpleado(MouseEvent event) {
@@ -561,29 +601,33 @@ public class SistemaController implements Initializable {
             System.err.println("EROROR: " + e.getMessage());
         }
     }
+    
+    @FXML
+    private void modificarProducto(MouseEvent event) {
+        try{  
+            ObservableList<Producto> productoSelected;
+            productoSelected = tblViewProductos.getSelectionModel().getSelectedItems();
+            Producto producto = tblViewProductos.getSelectionModel().getSelectedItem();
 
+            if(productoSelected.isEmpty()){
+                er.msgError("No se ha seleccionado  \n el elemento a eliminar");
+                return;
+            }else{
+             String id = producto.getId_producto();
+             int id_p = Integer.parseInt(id);
+             ModificarProductoController.id_prod = id_p;
+            lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProducto.fxml");
+            }
+        }catch(Exception e){
+            System.err.println("EROROR: " + e.getMessage());
+        }
+    }
+    
     @FXML
     private void agregarEmpleado(MouseEvent event) {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarEmpleado.fxml");
     }
 
-    @FXML
-    private void cargarTablaProducts(MouseEvent event){  
-               //inicializa lista
-       listaProducto = FXCollections.observableArrayList();
-       Producto.llenarTablaProductos(con, listaProducto);
-       //enlazar observable con tableview
-        tblViewProductos.setItems(listaProducto); 
-       //enlazar columnas con atributo
-      
-        clmnIdProduc.setCellValueFactory(new PropertyValueFactory<Producto,String>("idProduc"));
-        clmnDescriProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("descripcion"));  
-        clmnPrecioCProd.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_c"));
-        clmnPrecioVProduc.setCellValueFactory(new PropertyValueFactory<Producto,String>("precio_v"));
-        clmnExisProduct.setCellValueFactory(new PropertyValueFactory<Producto,String>("existencias"));
-     
-        filteredDataProducto =new FilteredList<>(listaProducto,p->true);
-        flagLoadProduct = true;
-    }
+   
 }
 

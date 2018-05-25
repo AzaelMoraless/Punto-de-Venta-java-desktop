@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,7 +42,7 @@ public class ErrorController implements Initializable{
     public void cerrar(Event event){
         ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
-    
+
     public  void msgError(String mensaje){
         try{ 
             ErrorController.mensajeErr = mensaje;
@@ -55,5 +57,13 @@ public class ErrorController implements Initializable{
         }catch(IOException e){
             System.err.println("Error: carga" + e.getMessage());
         }
+    }
+
+    @FXML
+    private void cerrarKey(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER) || event.getCode().equals(KeyCode.ESCAPE)){
+            ((Node)  (event.getSource())).getScene().getWindow().hide();
+        }
+        
     }
 }

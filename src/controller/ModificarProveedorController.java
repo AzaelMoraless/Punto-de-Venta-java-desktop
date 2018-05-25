@@ -34,7 +34,6 @@ import modelo.TextFieldFormatter;
  * @author Azael
  */
 public class ModificarProveedorController implements Initializable {
-    @FXML TextField txtBuscar;
     @FXML
     private TextField txtRazonS1;
     @FXML
@@ -54,8 +53,6 @@ public class ModificarProveedorController implements Initializable {
     @FXML
     private AnchorPane modificarPanel;
     @FXML
-    private JFXButton btnBuscar;
-    @FXML
     private JFXButton btnCerrar;
     @FXML
     private JFXButton btnGuardar;
@@ -73,8 +70,8 @@ public class ModificarProveedorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         buscarProveedor(rfc);
     }
-    @FXML 
-    public void buscar(MouseEvent event){
+    
+    /*public void buscar(MouseEvent event){
         Statement stmt;
         ResultSet rs;
         String busqueda = txtBuscar.getText().trim(); 
@@ -97,7 +94,7 @@ public class ModificarProveedorController implements Initializable {
         }catch(SQLException e){
           
         }      
-    }
+    }*/
     
     public void buscarProveedor(String rfc_v){
         Statement stmt;
@@ -114,7 +111,6 @@ public class ModificarProveedorController implements Initializable {
                    txtTelefono1.setText(rs.getString("telefono"));
                    txtEmail1.setText(rs.getString("email"));  
                 }else{  
-                    txtBuscar.setText("");
                     er.msgError("No existe el poveedor");
                 }
             }
@@ -155,7 +151,6 @@ public class ModificarProveedorController implements Initializable {
         ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
     
-    @FXML 
     public void detectaTecla(KeyEvent evt){
           txtRazonS1.setText(""); txtTelefono1.setText(""); txtDireccion1.setText(""); txtEmail1.setText("");
           txtRazonS1.setPromptText(""); txtTelefono1.setPromptText(""); txtDireccion1.setPromptText(""); txtEmail1.setPromptText("");
@@ -205,7 +200,7 @@ public class ModificarProveedorController implements Initializable {
 
    
     
-    @FXML 
+    @FXML
     private void tfTelefonoKeyRelased(){
         TextFieldFormatter tff= new TextFieldFormatter();
         tff.setMask("(###)-####-###");

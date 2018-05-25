@@ -23,66 +23,131 @@
             </Label>
          </children>
       </AnchorPane>
-      <TextField fx:id="txtBuscar" layoutX="31.0" layoutY="100.0" onKeyPressed="#detectaTecla" prefHeight="33.0" prefWidth="396.0" promptText="Buscar producto por nombre" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0" />
-      <Label layoutX="30.0" layoutY="69.0" text="Buscar producto" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="59.0">
-         <font>
-            <Font name="Roboto Bold Condensed" size="18.0" />
-         </font>
-      </Label>
-      <JFXButton fx:id="btnBuscar" layoutX="446.0" layoutY="88.0" onMouseClicked="#buscar" prefHeight="23.0" prefWidth="78.0" ripplerFill="#b2f855" style="-fx-background-color: #5BBA59;" text="Buscar" textFill="WHITE" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="88.0">
-         <font>
-            <Font name="Roboto Bold Condensed" size="19.0" />
-         </font>
-      </JFXButton>
-      <Separator layoutX="30.0" layoutY="170.0" prefHeight="4.0" prefWidth="560.0" style="-fx-background-color: #3974A3;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="160.0" />
-      <Label layoutX="20.0" layoutY="128.0" text="Datos del producto">
+      <Separator layoutX="14.0" layoutY="85.0" prefHeight="4.0" prefWidth="560.0" style="-fx-background-color: #3974A3;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="98.0" />
+      <Label layoutX="20.0" layoutY="59.0" text="Datos del producto" AnchorPane.topAnchor="61.0">
          <font>
             <Font name="Roboto Condensed Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPrecioC" layoutX="422.0" layoutY="181.0" prefHeight="33.0" prefWidth="94.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="25.0" />
-      <Label layoutX="306.0" layoutY="186.0" prefHeight="24.0" prefWidth="102.0" text="Precio Compra:">
+      <TextField fx:id="txtPrecioC" layoutX="422.0" layoutY="181.0" onKeyTyped="#validaPrecioC" prefHeight="33.0" prefWidth="133.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="112.0" />
+      <Label layoutX="275.0" layoutY="111.0" prefHeight="24.0" prefWidth="102.0" text="Precio Compra:">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtDescripcion" layoutX="126.0" layoutY="220.0" prefHeight="33.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="268.0" />
-      <Label layoutX="36.0" layoutY="224.0" prefHeight="24.0" prefWidth="86.0" text="Descripción:">
+      <TextField fx:id="txtDescripcion" layoutX="126.0" layoutY="220.0" onKeyPressed="#validaDescrip" prefHeight="33.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="165.0" />
+      <Label layoutX="37.0" layoutY="169.0" prefHeight="24.0" prefWidth="86.0" text="Descripción:">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPrecioV" layoutX="126.0" layoutY="260.0" prefHeight="33.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="268.0" />
-      <Label layoutX="33.0" layoutY="265.0" prefHeight="24.0" prefWidth="86.0" text="Precio Venta:">
+      <TextField fx:id="txtPrecioV" layoutX="126.0" layoutY="260.0" onKeyTyped="#validaPrecioV" prefHeight="33.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="225.0" />
+      <Label layoutX="35.0" layoutY="228.0" prefHeight="24.0" prefWidth="86.0" text="Precio Venta:">
          <font>
             <Font name="Roboto Condensed" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="txtNombre" layoutX="126.0" layoutY="180.0" prefHeight="31.0" prefWidth="150.0" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="268.0">
-         <font>
-            <Font name="Roboto Condensed Light" size="15.0" />
-         </font>
-      </TextField>
-      <Label layoutX="60.0" layoutY="185.0" prefHeight="21.0" prefWidth="58.0" text="Nombre:">
+      <Label fx:id="lbIDproduc" layoutX="132.0" layoutY="156.0" prefHeight="21.0" prefWidth="53.0" text="+++" AnchorPane.topAnchor="112.0">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnGuardar" layoutX="203.0" layoutY="304.0" onMouseClicked="#guardar" style="-fx-background-color: #6BAE68;" text="Guardar" textFill="WHITE">
+      <JFXButton fx:id="btnGuardar" layoutX="203.0" layoutY="304.0" onMouseClicked="#guardar" style="-fx-background-color: #6BAE68;" text="Guardar" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="181.0">
          <font>
             <Font name="Roboto Bold Condensed" size="19.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnCerrar" layoutX="315.0" layoutY="304.0" onMouseClicked="#cerrar" style="-fx-background-color: #3974A3;" text="Cerrar" textFill="WHITE">
+      <JFXButton fx:id="btnCerrar" layoutX="315.0" layoutY="304.0" onMouseClicked="#cerrar" style="-fx-background-color: #3974A3;" text="Cerrar" textFill="WHITE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="283.0" AnchorPane.rightAnchor="189.0">
          <font>
             <Font name="Roboto Bold Condensed" size="19.0" />
          </font>
       </JFXButton>
-      <TextField fx:id="txtExistencias" layoutX="430.0" layoutY="221.0" prefHeight="33.0" prefWidth="94.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="25.0" />
-      <Label layoutX="330.0" layoutY="224.0" prefHeight="24.0" prefWidth="78.0" text="Existencias:">
+      <TextField fx:id="txtExistencias" layoutX="430.0" layoutY="221.0" prefHeight="33.0" prefWidth="133.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="165.0" />
+      <Label layoutX="295.0" layoutY="168.0" prefHeight="24.0" prefWidth="78.0" text="Existencias:">
          <font>
             <Font name="Roboto Condensed" size="16.0" />
          </font>
       </Label>
+      <Label layoutX="281.0" layoutY="229.0" prefHeight="24.0" prefWidth="97.0" text="RFC proveedor:">
+         <font>
+            <Font name="Roboto Condensed" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="155.0" prefHeight="24.0" prefWidth="102.0" text="Id del producto:" AnchorPane.topAnchor="112.0">
+         <font>
+            <Font name="Roboto Condensed" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txRFCProv" layoutX="376.0" layoutY="257.0" onKeyPressed="#validaRFC" prefHeight="33.0" prefWidth="133.0" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="225.0" />
+      <HBox fx:id="errorRFCprov" layoutX="419.0" layoutY="262.0" prefHeight="25.0" prefWidth="94.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="70.0" text="RFC invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorExistencias" layoutX="385.0" layoutY="198.0" prefHeight="25.0" prefWidth="131.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="104.0" text="Existencias invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorPrecioC" layoutX="377.0" layoutY="143.0" prefHeight="25.0" prefWidth="144.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="121.0" text="Precio Compra invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorPrecioV" layoutX="130.0" layoutY="258.0" prefHeight="25.0" prefWidth="144.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="112.0" text="Precio Venta invalido" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="errorDescripcion" layoutX="132.0" layoutY="199.0" prefHeight="25.0" prefWidth="131.0" visible="false">
+         <children>
+            <Label prefHeight="25.0" prefWidth="108.0" text="Descripción invalida" textFill="#e57373">
+               <font>
+                  <Font name="Roboto Condensed" size="13.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/error%20(2).png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

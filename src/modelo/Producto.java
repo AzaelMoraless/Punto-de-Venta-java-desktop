@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 /**
@@ -18,41 +20,58 @@ import javafx.collections.ObservableList;
  * @author Azael
  */
 public class Producto {
-    String idProduc;
-    String descripcion;
-    String precio_c;
-    String precio_v;
-    String existencias;
+    private final StringProperty idProduc;
+    private final StringProperty descripcion;
+    private final StringProperty precio_c;
+    private final StringProperty precio_v;
+    private final StringProperty existencias;
     
     public Producto(String idProducto,String descripcion,String precio_c,String precio_v,
                     String existencias){
-        this.idProduc = idProducto;
-        this.descripcion = descripcion;
-        this.precio_c = precio_c;
-        this.precio_v = precio_v;
-        this.existencias = existencias;
+        
+        this.idProduc = new SimpleStringProperty(idProducto);
+        this.descripcion = new SimpleStringProperty(descripcion);
+        this.precio_c = new SimpleStringProperty(precio_c);
+        this.precio_v = new SimpleStringProperty(precio_v);
+        this.existencias = new SimpleStringProperty(existencias);
     }
     
     public String getId_producto() {
+        return idProduc.get();
+    }
+    public StringProperty id_producto() {
         return idProduc;
     }
-
     public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getPrecio_venta() {
-        return precio_v;
-    }
-
-    public String getPrecio_compra() {
-        return precio_c;
-    }
-
-    public String getExistencias() {
-        return existencias;
+        return descripcion.get();
     }
     
+    public StringProperty descripcion() {
+        return descripcion;
+    }
+    
+    public String getPrecio_venta() {
+        return precio_v.get();
+    }
+    
+    public StringProperty precio_venta() {
+        return precio_v;
+    }
+        
+    public String getPrecio_compra() {
+        return precio_c.get();
+    }
+
+    public StringProperty precio_compra() {
+        return precio_c;
+    }
+    public String getExistencias() {
+        return existencias.get();
+    }
+    
+    public StringProperty existencias() {
+        return existencias;
+    }
      public static void llenarTablaProductos(Connection connection,ObservableList<Producto> lista){
         try {
             Statement stmt = connection.createStatement();
@@ -71,6 +90,5 @@ public class Producto {
         }catch(SQLException ex) {
             Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
+    }    
 }

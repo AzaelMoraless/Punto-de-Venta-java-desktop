@@ -45,11 +45,6 @@ import modelo.TextFieldFormatter;
  * @author Azael
  */
 public class ModificarEmpleadoController implements Initializable {
-
-    @FXML
-    private TextField txtBuscar;
-    @FXML
-    private JFXButton btnBuscar;
     @FXML
     private JFXButton btnCerrar;
     @FXML
@@ -105,6 +100,13 @@ public class ModificarEmpleadoController implements Initializable {
             msgErr.msgError("Campo(s) incorrectos");
             return;
         } 
+        String puesto="";
+        if(rbutton1.isSelected()){
+            msgErr.msgError("No se puede agregar \n otro administrador");
+            return;
+        }else if(rbutton2.isSelected())
+            puesto = "vendedor";
+        
          String sSQL = "UPDATE aguilas.empleado SET " 
                         + "nombre = ?"
                         + ",telefono = ?"
@@ -120,10 +122,11 @@ public class ModificarEmpleadoController implements Initializable {
             pstm.setString(3, txtNickname.getText().trim());
             pstm.setString(4, txtContrasenia.getText().trim());
             pstm.setString(5, txtEmail.getText().trim());
-            pstm.setString(6, txtPuesto.getText().trim());
+            pstm.setString(6, puesto);
             pstm.setInt(7, id_eVar);
             pstm.executeUpdate();  
             msg_exitoso.msgExitoso("Registro actualizado");
+            limpiarCampos();
         }catch(SQLException e){
         JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -171,8 +174,7 @@ public class ModificarEmpleadoController implements Initializable {
         }
     }
 
-    @FXML
-    private void buscar(MouseEvent event) {
+    /*private void buscar(MouseEvent event) {
         Statement stmt;
         ResultSet rs;
         id_eVar = Integer.parseInt(txtBuscar.getText());
@@ -195,7 +197,7 @@ public class ModificarEmpleadoController implements Initializable {
         }catch(SQLException e){
          
         }      
-    }
+    }*/
     @FXML
     private void validaTel(KeyEvent event) {
         Pattern pattern =Pattern.compile("([(][0-9]{3}[)])-([0-9]{4})-([0-9]{3})"); 

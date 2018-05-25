@@ -7,6 +7,9 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,7 +56,11 @@ public class AgregarProductoController implements Initializable {
     private HBox errorExistencias;
     @FXML
     private HBox errorRFCprov;
-
+    
+    Conexion cc = new Conexion();
+    Connection con = cc.conexion();
+    ErrorController msgErr = new ErrorController();
+    View_successfulController msg_exitoso = new View_successfulController();
     /**
      * Initializes the controller class.
      */
@@ -80,7 +87,27 @@ public class AgregarProductoController implements Initializable {
     }
 
     @FXML
-    private void aceptar(MouseEvent event) {
+    private void aceptar(MouseEvent event){
+        
+        
+        if(validarInput()==false){
+            msgErr.msgError("Campo(s) incorrectos");
+            return;
+        } 
+        String descripcion,rfc_prov;
+        Double precio_c,precio_v;
+        int existencias;
+        descripcion = txtNombre.getText().trim(); precio_c = Double.parseDouble(txtPrecioC.getText().trim()); precio_v = Double.parseDouble(txtPrecioV.getText().trim());
+        existencias = Integer.parseInt(txtExistencias.getText().trim());
+        rfc_prov = txtRFCprov.getText().trim();
+        try{ 
+            Statement consulta=(Statement)con.createStatement();
+            consulta.executeUpdate("insert into aguilas.producto(descripcion,id_prov,precio_c,precio_v,existencias) values('"+descripcion+"','"+rfc_prov+"','"+precio_c+"','"+precio_v+"','"+existencias+"')");
+            msg_exitoso.msgExitoso("Producto agregado");
+            limpiarCampos();
+        }catch(SQLException e){
+           msgErr.msgError(e.getMessage());
+        }    
         
     }
     @FXML
@@ -105,6 +132,38 @@ public class AgregarProductoController implements Initializable {
     }
     @FXML
     private void validaPrecioV(KeyEvent event){
-        
+        modelo.Delimitador.limitTextField(txtPrecioV, 15);
+        char caracter = event.getCharacter().charAt(0);   
+        if (((caracter < '0') || (caracter > '9')) 
+        && (caracter != '.' || txtPrecioV.getText().contains(".")) ) {
+            event.consume();
+        }
     }
-}
+
+    @FXML
+    private void validaPrecioC(KeyEvent event){
+        modelo.Delimitador.limitTextField(txtPrecioC, 15);
+        char caracter = event.getCharacter().charAt(0);   
+        if (((caracter < '0') || (caracter > '9')) 
+        && (caracter != '.' || txtPrecioC.getText().contains(".")) ) {
+            event.consume();
+        }
+    }
+    
+    public boolean validarInput(){
+        if(errorDescripcion.isVisible() || errorPrecioV.isVisible() || errorExistencias.isVisible() || errorPrecioC.isVisible() || errorRFCprov.isVisible()
+           || txtNombre.getText().equals("") || txtPrecioC.getText().equals("") || txtPrecioV.getText().equals("") ||
+           txtExistencias.getText().equals("") || txtRFCprov.getText().equals(""))
+            return false;
+        else 
+            return true;
+    }
+    
+    public void limpiarCampos(){
+       txtNombre.setText("");
+       txtPrecioV.setText("");
+       txtPrecioC.setText("");
+       txtExistencias.setText("");
+       txtRFCprov.setText("");
+    }
+}   
