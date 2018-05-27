@@ -7,17 +7,21 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import conexion.Conexion;
+import static controller.ModificarProveedorController.rfc;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;
@@ -25,11 +29,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -51,6 +59,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.LocalDateStringConverter;
 import javax.swing.JOptionPane;
+import modelo.Compra;
 import modelo.DetalleCompra;
 import modelo.Producto;
 import modelo.Proveedor;
@@ -74,6 +83,7 @@ public class AgregarCompraController implements Initializable {
     @FXML private HBox errorRFC;
     @FXML private HBox errorFolio;
     @FXML private HBox errorDescripcion;
+   
     @FXML private TableView<Producto> tablaProductos;
     @FXML private TableColumn<Producto,String> clmnCodigo;
     @FXML private TableColumn<Producto,String> clmnDescripcion;
@@ -86,13 +96,17 @@ public class AgregarCompraController implements Initializable {
     @FXML private HBox btnEliminar;
     @FXML private HBox btnEditar;
     private FilteredList<Producto> filteredDataProducto;
-     private boolean flagLoadProduct;
+    private boolean flagLoadProduct;
     @FXML
     private TextField txtBuscarProducto;
     @FXML
     private HBox errorCodigo;
-    static TextField campoRFC; 
+    static TextField campoRFC; // campo statico para obtener rfc de busqueda
+    
+    
     private ObservableList<Producto> listaProducto;
+    
+    static ObservableList<Compra> listaCompra;
     Conexion cc = new Conexion();
     Connection con = cc.conexion();
     View_successfulController msg_exitoso = new View_successfulController();
@@ -104,16 +118,20 @@ public class AgregarCompraController implements Initializable {
     private Double precio_c,precio_v;
     private int existencias;
     private  LocalDate fecha;
+    private double total_compra;
+    
     @FXML
     private Label lblTotalaPagar;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fechaCompra.setValue(LocalDate.now()); 
-        campoRFC = txtRFCProv;
-           // LocalDate date = fecha1.getValue();
-          // fechaCompra.setConverter(new LocalDateStringConverter(FormatStyle.FULL));
-        eventoFecha();
         
+        campoRFC = txtRFCProv;
+        
+        eventoFecha();
+        cargarTablaProductos();
         txtExistencias.lengthProperty().addListener(new ChangeListener<Number>(){
 	@Override
 	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -169,15 +187,18 @@ public class AgregarCompraController implements Initializable {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\buscarProveedor.fxml");
     }
 
-    @FXML
+    @FXML //agregar Compra
     private void aceptar(MouseEvent event) {  // guarda la compra en la base de datos 
-        if(validarEntradasProductos()==false || listaProducto.isEmpty()){
-            msgErr.msgError("Campo(s) de compra\n\t\tincorrectos");
+        if(validarEntradasCompra()==false || listaProducto.isEmpty()){
+            msgErr.msgError("Campo(s) de compra\n\tincorrectos");
             return; 
         }
         
         int id_empleado = SistemaController.llave_id_empleado;
-        inicializaVariables();
+        
+        folio_compra = txtFolioCompra.getText();
+        fecha = fechaCompra.getValue();
+        
         
         double total = 0;
         for(int i=0; i<arrayDetalleCompra.size(); i++){
@@ -207,7 +228,7 @@ public class AgregarCompraController implements Initializable {
             JOptionPane.showMessageDialog(null, "Error: producto " + e.getMessage());
         }  
         
-        //agregar detalles compra a la base de datos 
+        //agregar detalles de la compra a la base de datos 
         try{ 
             Statement consulta=(Statement)con.createStatement();
             for(int i=0; i<arrayProductos.size(); i++){
@@ -219,30 +240,40 @@ public class AgregarCompraController implements Initializable {
             JOptionPane.showMessageDialog(null, "Error: detalle compra " + e.getMessage());
         }  
         limpiarCamposCompra();
-        JOptionPane.showMessageDialog(null, "Compra registrada");
+        String fech= fecha.toString();
+         Compra compra = new Compra(folio_compra, rfc_prov, fech, ""+id_empleado, ""+total_compra);
+            
+        listaCompra.add(compra);
+        
+        msg_exitoso.msgExitoso("Compra registrada");
+        
+        //listaProducto.clear();
+        ((Node)  (event.getSource())).getScene().getWindow().hide();
           
     }
 
     @FXML
     private void cerrar(MouseEvent event) {
-        
+         ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
     private void agregarProducto(MouseEvent event) {
-        cargarTablaProductos();
+        
         if(validarEntradasProductos()==false){   // validar datos de entrada
             msgErr.msgError("Campo(s) incorrectos");
             return; 
         }
         inicializaVariables();
         double subtotal = precio_c * existencias;
-        
+        total_compra += subtotal;
+        lblTotalaPagar.setText(""+total_compra);
         Producto producto = new Producto(codigo, descripcion,""+precio_c, ""+precio_v, ""+existencias,""+subtotal);
         DetalleCompra dCompra = new DetalleCompra(codigo, existencias, subtotal);
         
         arrayProductos.add(producto);
         arrayDetalleCompra.add(dCompra);
+        
         listaProducto.add(producto);
         limpiarCamposProducto();
     }
@@ -253,16 +284,43 @@ public class AgregarCompraController implements Initializable {
         precio_c = Double.parseDouble(txtPrecioC.getText().trim()); 
         precio_v = Double.parseDouble(txtPrecioV.getText().trim());
         existencias = Integer.parseInt(txtExistencias.getText().trim());
-        rfc_prov = txtRFCProv.getText().trim();
-        
-        
-        folio_compra = txtFolioCompra.getText();
-       
-        fecha = fechaCompra.getValue();
-        
+        rfc_prov = txtRFCProv.getText().trim();   
     }
+    
     @FXML
     private void eliminarProducto(MouseEvent event) {
+        ObservableList<Producto> productoSelected;
+        productoSelected = tablaProductos.getSelectionModel().getSelectedItems();
+        Producto producto = tablaProductos.getSelectionModel().getSelectedItem();
+        
+        if(productoSelected.isEmpty()){
+            msgErr.msgError("No se ha seleccionado  \n el elemento a eliminar");
+            return;
+        }
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("confirmacion");
+        alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO? \nProducto \n id_prod: " 
+                            + producto.getCodigo()+ "\t\t Descripcion: " + producto.getDescripcion()
+                            + "\n Existencias: " + producto.getExistencias() +"\t\t Precio " + producto.getPrecio_venta());
+            
+            
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK){        
+                String codigo = producto.getCodigo();
+                // eliminar del arrayList
+                int i=0; 
+                while(!arrayProductos.get(i).getCodigo().equalsIgnoreCase(codigo)){
+                     i++;
+                }
+                arrayProductos.remove(i);
+                arrayDetalleCompra.remove(i);
+                
+                total_compra -= Double.parseDouble(producto.getSubtotal());
+                lblTotalaPagar.setText(""+total_compra);
+                productoSelected.forEach(listaProducto::remove);      
+            }  
     }
 
     @FXML
@@ -270,25 +328,53 @@ public class AgregarCompraController implements Initializable {
         ObservableList<Producto> productoSelected;
         productoSelected  = tablaProductos.getSelectionModel().getSelectedItems();
         Producto producto = tablaProductos.getSelectionModel().getSelectedItem();
-
+        
         if(productoSelected.isEmpty()){
             msgErr.msgError("No se ha seleccionado  \n el elemento a eliminar");
             return;
         }else{
-            txtRFCProv.setText(producto.getCodigo());
+            txtcodigoProducto.setText(producto.getCodigo());
             txtDescripcionProducto.setText(producto.getDescripcion());
             txtPrecioC.setText(producto.getPrecio_compra());
             txtPrecioV.setText(producto.getPrecio_venta());
             txtExistencias.setText(producto.getExistencias());
+            
+            int i=0; 
+                while(!arrayProductos.get(i).getCodigo().equalsIgnoreCase(codigo)){
+                     i++;
+                }
+                arrayProductos.remove(i);
+                arrayDetalleCompra.remove(i);
+                
+                total_compra -= Double.parseDouble(producto.getSubtotal());
+                lblTotalaPagar.setText(""+total_compra);
+                productoSelected.forEach(listaProducto::remove);  
         }
     }
 
-    @FXML
-    private void filtrarProducto(InputMethodEvent event) {
-    }
 
     @FXML
     private void filtrarProducto(KeyEvent event) {
+        if(flagLoadProduct){
+        txtBuscarProducto.textProperty().addListener((observableValue,oldValue,newValue)->{
+        filteredDataProducto.setPredicate((Predicate<? super Producto>) produc->{
+            if(newValue== null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter =newValue.toLowerCase();
+            if(produc.getCodigo().contains(newValue))
+                return true;
+            if(produc.getDescripcion().toLowerCase().contains(lowerCaseFilter))
+                return true;
+            return false;
+             });
+            });
+            SortedList<Producto>  sortedData = new SortedList<>(filteredDataProducto);
+            sortedData.comparatorProperty().bind(tablaProductos.comparatorProperty());
+            tablaProductos.setItems(sortedData);
+        }else{
+            return;
+        } 
     }
 
     @FXML
@@ -300,8 +386,6 @@ public class AgregarCompraController implements Initializable {
         else 
            errorFolio.setVisible(true); 
     }
-
-  
     @FXML
     private void validaCodigo(KeyEvent event) {
         Pattern pattern =Pattern.compile("[#a-zA-Z0-9 ]{3,}"); 
@@ -324,7 +408,7 @@ public class AgregarCompraController implements Initializable {
 
     @FXML
     private void validaPrecioC(KeyEvent event) {
-         modelo.Delimitador.limitTextField(txtPrecioC, 15);
+        modelo.Delimitador.limitTextField(txtRFCProv, 15);
         char caracter = event.getCharacter().charAt(0);   
         if (((caracter < '0') || (caracter > '9')) 
         && (caracter != '.' || txtPrecioC.getText().contains(".")) ) {
@@ -346,13 +430,10 @@ public class AgregarCompraController implements Initializable {
          try{ 
             URL url = Paths.get(ruta_view_fxml).toUri().toURL();
             Parent root = FXMLLoader.load(url);
-            
-            FXMLLoader loader= new FXMLLoader();
             Stage stage= new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-          
             stage.show();
         }catch(IOException e){
              System.err.println("ERROR " + e.getMessage());
@@ -361,7 +442,6 @@ public class AgregarCompraController implements Initializable {
     
    private void cargarTablaProductos(){  
        listaProducto = FXCollections.observableArrayList();
-       // Producto.llenarTablaProductos(con, this.listaProducto);
         tablaProductos.setItems(listaProducto); 
         clmnCodigo.setCellValueFactory(cellData -> cellData.getValue().codigo());
         clmnDescripcion.setCellValueFactory(new PropertyValueFactory<Producto, String>("descripcion"));  
@@ -396,6 +476,8 @@ public class AgregarCompraController implements Initializable {
     public void limpiarCamposCompra(){
         txtFolioCompra.setText("");
         txtRFCProv.setText("");
-        lblTotalaPagar.setText("$00.00");           
+        lblTotalaPagar.setText("00.00");           
     }
+
+    
 }

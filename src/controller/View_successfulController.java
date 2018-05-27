@@ -45,7 +45,7 @@ public class View_successfulController implements Initializable {
 
     @FXML
     private void cerrar(ActionEvent event) {
-         ((Node)  (event.getSource())).getScene().getWindow().hide();
+        ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
     public  void msgExitoso(String msg){
         try{ 

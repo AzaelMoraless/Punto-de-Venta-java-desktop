@@ -81,7 +81,7 @@ public class Producto {
     public StringProperty existencias() {
         return existencias;
     }
-     public static void llenarTablaProductos(Connection connection,ObservableList<Producto> lista){
+    public static void llenarTablaProductos(Connection connection,ObservableList<Producto> lista){
         try {
             Statement stmt = connection.createStatement();
             ResultSet result  = stmt.executeQuery("SELECT * FROM aguilas.producto");

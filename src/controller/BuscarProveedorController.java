@@ -113,7 +113,7 @@ public class BuscarProveedorController implements Initializable {
                     return;
             }
             AgregarCompraController.campoRFC.setText(proveedor.getRfc());
-            ((Node)(event.getSource())).getScene().getWindow().hide();
+           ((Node)(event.getSource())).getScene().getWindow().hide();
         }catch(Exception e){System.err.println("Error " + e.getLocalizedMessage() );}
         
     }

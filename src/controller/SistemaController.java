@@ -28,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -37,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import modelo.Compra;
 import modelo.Empleado;
 import modelo.Producto;
 import modelo.Proveedor;
@@ -45,7 +47,8 @@ public class SistemaController implements Initializable {
     private ObservableList<Proveedor> listaProveedor;
     private ObservableList<Empleado> listaEmpleado;
     private ObservableList<Producto> listaProducto;
-    
+    private ObservableList<Compra> listaCompra;
+     
     @FXML private TableView<Proveedor> tblViewProveedores;
     @FXML private TableView<Empleado> tblViewEmpleados;
     @FXML private TableView<Producto> tblViewProductos;
@@ -54,7 +57,7 @@ public class SistemaController implements Initializable {
     private FilteredList<Proveedor> filteredData;
     private FilteredList<Empleado> filteredDataEmpleado;
     private FilteredList<Producto> filteredDataProducto;
-    
+    private FilteredList<Compra> filteredDataCompra;
     //columnas proveedor
     
     @FXML private TableColumn<Proveedor,String> clmnRfcProv;  //clmnRfcProv
@@ -96,6 +99,8 @@ public class SistemaController implements Initializable {
     private boolean flagLoadProv;
     private boolean flagLoadEmple;
     private boolean flagLoadProduct;
+    private boolean flagLoadCompra;
+    
     static String user_n;
     static int llave_id_empleado;
     
@@ -108,7 +113,6 @@ public class SistemaController implements Initializable {
     
 
     @FXML private TextField txtBuscarEmpleado;
-    @FXML private TextField txtBusquedaProv1;
     @FXML private TextField txtBuscarProducto;
     @FXML
     private HBox hBoxClientes;
@@ -116,6 +120,16 @@ public class SistemaController implements Initializable {
     private AnchorPane panelClientes;
     @FXML
     private TextField txtBuscarCliente;
+    
+    @FXML private TableView<Compra> tablaCompras;
+    @FXML private TableColumn<Compra, String> clmnFolioCompra;
+    @FXML private TableColumn<Compra, String> clmnRFCProvCompra;
+    @FXML private TableColumn<Compra, String> clmnFechaCompra;
+    @FXML private TableColumn<Compra, String> clmnRecibioCompra;
+    @FXML private TableColumn<Compra, String> clmnTotalCompra;
+    
+    @FXML
+    private TextField buscarCompra;
   
 
     
@@ -640,6 +654,89 @@ public class SistemaController implements Initializable {
     @FXML
     private void agregarCompra(MouseEvent event) {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarCompra.fxml");
+        AgregarCompraController.listaCompra = listaCompra;
+    }
+
+    @FXML
+    private void modificarCompra(MouseEvent event) {
+    }
+
+    @FXML
+    private void eliminarCompra(MouseEvent event) {
+        ObservableList<Compra> compraSelected;
+        compraSelected = tablaCompras.getSelectionModel().getSelectedItems();
+        Compra compra = tablaCompras.getSelectionModel().getSelectedItem();
+        
+        if(compraSelected.isEmpty()){
+            er.msgError("No se ha seleccionado  \n el elemento a eliminar");
+            return;
+        }
+
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("confirmacion");
+            alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO? \nCompra \n folio: " 
+                                + compra.getFolio()+ "\t\t RFC Proveedor: " + compra.getRFCP()
+                                + "\n Fecha: " + compra.getFecha()+"\t\t Precio " + compra.getTotalCompra());
+            
+            
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK){
+                 compraSelected.forEach(listaCompra::remove);
+               /* String id = tblViewProductos.getSelectionModel().getSelectedItem().getCodigo();
+                int id_em = Integer.parseInt(id);
+                compraSelected.forEach(listaCompra::remove);
+                    try{
+                        PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.producto WHERE id_e = ?");
+                        st.setInt(1,id_em);
+                        st.executeUpdate();  
+                        msg_exitoso.msgExitoso("Registro eliminado");
+                    }catch(SQLException e){
+                         er.msgError(e.getMessage());
+                    }*/
+            }   
+    }
+
+    @FXML
+    private void cargarTablaCompras(MouseEvent event) {
+        //inicializa lista
+        listaCompra = FXCollections.observableArrayList();
+        Compra.llenarTablaCompras(con, listaCompra);
+       //enlazar observable con tableview
+        tablaCompras.setItems(listaCompra); 
+       //enlazar columnas con atributo
+        clmnFolioCompra.setCellValueFactory(cellData -> cellData.getValue().getPropertyFolio());
+        clmnRFCProvCompra.setCellValueFactory(cellData -> cellData.getValue().getRfc_proveedor());  
+        clmnFechaCompra.setCellValueFactory(cellData -> cellData.getValue().getDate());
+        clmnRecibioCompra.setCellValueFactory(cellData -> cellData.getValue().getRecibio());
+        clmnTotalCompra.setCellValueFactory(cellData -> cellData.getValue().getTotal());
+     
+        filteredDataCompra =new FilteredList<>(listaCompra,p->true);
+        flagLoadCompra = true;
+    }
+
+    @FXML
+    private void filtrarCompra(KeyEvent event) {
+         if(flagLoadCompra){
+        buscarCompra.textProperty().addListener((observableValue,oldValue,newValue)->{
+        filteredDataCompra.setPredicate((Predicate<? super Compra>) produc->{
+            if(newValue== null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter =newValue.toLowerCase();
+            if(produc.getFolio().contains(newValue))
+                return true;
+            if(produc.getRFCP().toLowerCase().contains(lowerCaseFilter))
+                return true;
+            return false;
+             });
+            });
+            SortedList<Compra>  sortedData = new SortedList<>(filteredDataCompra);
+            sortedData.comparatorProperty().bind(tablaCompras.comparatorProperty());
+            tablaCompras.setItems(sortedData);
+        }else{
+            return;
+        } 
     }
    
    

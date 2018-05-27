@@ -105,7 +105,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/compras.png" />
+                        <Image url="@../images/comprasBla.png" />
                      </image>
                      <HBox.margin>
                         <Insets left="15.0" />
@@ -424,7 +424,7 @@
             </TextField>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="comprasPanel" layoutX="226.0" layoutY="78.0" prefHeight="744.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="comprasPanel" layoutX="226.0" layoutY="78.0" prefHeight="744.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <AnchorPane layoutY="-1.0" prefHeight="48.0" prefWidth="995.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="725.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -435,7 +435,7 @@
                   </Label>
                   <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="20.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="7.0">
                      <image>
-                        <Image url="@../images/comprasB.png" />
+                        <Image url="@../images/comprasNe.png" />
                      </image>
                   </ImageView>
                </children>
@@ -446,15 +446,15 @@
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/registrarcompra.png" />
+                              <Image url="@../images/comprasNe.png" />
                            </image>
                            <HBox.margin>
                               <Insets left="5.0" top="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="131.0" text="Registrar compra">
+                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="143.0" text="Registrar compra">
                            <font>
-                              <Font name="Roboto Condensed Bold" size="18.0" />
+                              <Font name="Roboto Condensed Bold" size="20.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="5.0" top="10.0" />
@@ -462,7 +462,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="45.0" prefWidth="150.0">
+                  <HBox onMouseClicked="#modificarCompra" prefHeight="45.0" prefWidth="150.0">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -482,7 +482,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="45.0" prefWidth="118.0">
+                  <HBox onMouseClicked="#eliminarCompra" prefHeight="45.0" prefWidth="118.0">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -502,7 +502,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="45.0" prefWidth="155.0">
+                  <HBox onMouseClicked="#cargarTablaCompras" prefHeight="45.0" prefWidth="155.0">
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -524,11 +524,13 @@
                   </HBox>
                </children>
             </HBox>
-            <TableView layoutX="42.0" layoutY="157.0" prefHeight="583.0" prefWidth="474.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
+            <TableView fx:id="tablaCompras" layoutX="42.0" layoutY="157.0" prefHeight="577.0" prefWidth="617.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
               <columns>
-                <TableColumn prefWidth="97.0" text="FOLIO" />
-                <TableColumn minWidth="0.0" prefWidth="129.0" text="FECHA" />
-                  <TableColumn minWidth="0.0" prefWidth="247.0" text="COSTO" />
+                <TableColumn fx:id="clmnFolioCompra" prefWidth="97.0" text="FOLIO" />
+                <TableColumn fx:id="clmnRFCProvCompra" minWidth="0.0" prefWidth="129.0" text="RFC PROVEEDOR" />
+                  <TableColumn fx:id="clmnFechaCompra" minWidth="0.0" prefWidth="156.0" text="FECHA" />
+                  <TableColumn fx:id="clmnRecibioCompra" prefWidth="75.0" text="RECIBIO" />
+                  <TableColumn fx:id="clmnTotalCompra" prefWidth="164.0" text="TOTAL" />
               </columns>
             </TableView>
             <HBox layoutX="912.0" layoutY="82.0" prefHeight="45.0" prefWidth="163.0" style="-fx-background-color: #5FBC5F; -fx-background-radius: 10; -fx-border-radius: 10;" AnchorPane.rightAnchor="25.0">
@@ -548,7 +550,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextField fx:id="txtBusquedaProv1" layoutX="707.0" layoutY="84.0" onInputMethodTextChanged="#filtrarProveedor" onKeyPressed="#filtrarProveedor" prefHeight="33.0" prefWidth="175.0" promptText="folio de compra" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="707.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="88.0">
+            <TextField fx:id="buscarCompra" layoutX="707.0" layoutY="84.0" onKeyPressed="#filtrarCompra" prefHeight="33.0" prefWidth="175.0" promptText="folio de compra" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="707.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="88.0">
                <font>
                   <Font name="Roboto Condensed Light" size="15.0" />
                </font>
@@ -841,7 +843,7 @@
             </VBox>
          </children></AnchorPane>
       <AnchorPane fx:id="ayudaPanel" layoutX="216.0" layoutY="89.0" prefHeight="643.0" prefWidth="964.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
-      <AnchorPane fx:id="proveedoresPanel" layoutX="220.0" layoutY="60.0" prefHeight="772.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="proveedoresPanel" layoutX="220.0" layoutY="60.0" prefHeight="772.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <AnchorPane prefHeight="48.0" prefWidth="1094.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="725.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>

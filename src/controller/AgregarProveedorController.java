@@ -77,6 +77,7 @@ public class AgregarProveedorController implements Initializable {
     @FXML
     private ComboBox<String> comboCorreos;
     private String email;
+    
     static ObservableList<Proveedor> listaProveedor;
     
    
@@ -105,9 +106,8 @@ public class AgregarProveedorController implements Initializable {
             
             
             Proveedor p = new Proveedor(rfc, nombre, direccion, telefono, email);
-            
             listaProveedor.add(p);
-           // Proveedor.llenarTablaProveedores(con, listaProveedor);
+            
             msg_exitoso.msgExitoso("Proveedor agregado");
             ((Node)  (event.getSource())).getScene().getWindow().hide();
         }catch(SQLException e){

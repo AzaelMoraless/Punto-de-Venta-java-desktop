@@ -31,4 +31,5 @@ public class Delimitador {
         textField.setTextFormatter(new TextFormatter(textLimitFilter));
     } 
     
+    
 }
