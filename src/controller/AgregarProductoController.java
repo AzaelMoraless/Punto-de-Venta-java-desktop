@@ -5,11 +5,14 @@
  */
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,11 +21,18 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.util.Callback;
 import modelo.TextFieldFormatter;
 
 /**
@@ -139,7 +149,8 @@ public class AgregarProductoController implements Initializable {
             event.consume();
         }
     }
-
+    
+    
     @FXML
     private void validaPrecioC(KeyEvent event){
         modelo.Delimitador.limitTextField(txtPrecioC, 15);

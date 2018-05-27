@@ -1,5 +1,6 @@
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -81,12 +82,14 @@ public class LoginController implements Initializable {
         ResultSet rs;
         try{ 
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT puesto FROM aguilas.empleado WHERE (username  = '"+ user_name +"' and contrasena ='"+ password +"')");   
+            rs = stmt.executeQuery("SELECT id_e,puesto FROM aguilas.empleado WHERE (username  = '"+ user_name +"' and contrasena ='"+ password +"')");   
             if(rs!=null){
                 if(rs.next()){
                     if(cargo.getSelectionModel().getSelectedItem().equalsIgnoreCase(rs.getString("puesto"))){
                         ((Node)  (event.getSource())).getScene().getWindow().hide();
-                        SistemaController.user_n = user_name;
+                        SistemaController.user_n = user_name;    // pasar el usuario 
+                        SistemaController.llave_id_empleado = rs.getInt("id_e"); //pasar el id_empleado
+                        
                         URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
                         Parent root = FXMLLoader.load(url);
                         Stage stage= new Stage();

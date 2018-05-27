@@ -5,6 +5,7 @@
  */
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.sql.Connection;
@@ -13,16 +14,21 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import modelo.Empleado;
+import modelo.Proveedor;
 import modelo.TextFieldFormatter;
 
 /**
@@ -65,17 +71,23 @@ public class AgregarEmpleadoController implements Initializable {
     private RadioButton rbutton1;
     @FXML
     private RadioButton rbutton2;
-
+    static ObservableList<Empleado> listaEmpleado;
+    @FXML
+    private ComboBox<String> comboCorreos;
+    private ObservableList<String> listcorreos = FXCollections.observableArrayList("@hotmail.com","@gmail.com","@outlook.com","@yahoo.com");
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        ToggleGroup toggleGroup = new ToggleGroup();
        rbutton1.setToggleGroup(toggleGroup);
-       rbutton2.setToggleGroup(toggleGroup);
+       rbutton2.setToggleGroup(toggleGroup); 
        
+       comboCorreos.setValue("@hotmail.com");
+       comboCorreos.setItems(listcorreos);
+       comboCorreos.setStyle("-fx-font: 14px \"Roboto\";");
     }    
 
-     @FXML
+    @FXML
     private void cancelar(MouseEvent event) {
        ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
@@ -84,7 +96,8 @@ public class AgregarEmpleadoController implements Initializable {
     private void aceptar(MouseEvent event){
         String nombre,telefono,nickname,contrasenia,email,puesto="";
         nombre = txtNombre.getText().trim(); telefono = txtTel.getText().trim(); nickname = txtNick.getText().trim();
-        contrasenia = txtContrasenia.getText().trim(); email= txtEmail.getText().trim();
+        contrasenia = txtContrasenia.getText().trim(); 
+        email = txtEmail.getText().trim() + comboCorreos.getSelectionModel().getSelectedItem();
         
         if(rbutton1.isSelected()){
             msgErr.msgError("No se puede agregar \n otro administrador");
@@ -101,6 +114,10 @@ public class AgregarEmpleadoController implements Initializable {
         try{ 
             Statement consulta=(Statement)con.createStatement();
             consulta.executeUpdate("insert into aguilas.empleado (nombre,telefono,username,contrasena,email_e,puesto) values('"+nombre+"','"+telefono+"','"+nickname+"','"+contrasenia+"','"+email+"','"+puesto+"')");
+            
+           // Empleado e = new Empleado(email, nombre, telefono, nickname, contrasenia, email, puesto);
+            listaEmpleado.clear();
+            Empleado.llenarTablaEmpleados(con, listaEmpleado);
             msg_exitoso.msgExitoso("Empledo agregado");
             limpiarCampos();
         }catch(SQLException e){
@@ -122,13 +139,13 @@ public class AgregarEmpleadoController implements Initializable {
 
     @FXML
     private void validaEmail(KeyEvent event) {
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        Matcher mather = pattern.matcher(txtEmail.getText().trim()); 
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*$"); 
+        Matcher mather = pattern.matcher(txtEmail.getText().trim());
+        
         if (mather.find() == true) 
             errorEmail.setVisible(false);
         else 
-           errorEmail.setVisible(true); 
+           errorEmail.setVisible(true);
     }
 
     @FXML

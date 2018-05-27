@@ -5,7 +5,9 @@
  */
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
+import static controller.AgregarProveedorController.listaProveedor;
 import static controller.ModificarEmpleadoController.id_eVar;
 import java.net.URL;
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -26,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javax.swing.JOptionPane;
+import modelo.Proveedor;
 import modelo.TextFieldFormatter;
 
 /**
@@ -66,6 +70,7 @@ public class ModificarProveedorController implements Initializable {
     private HBox errorName;
     @FXML
     private Label lblRFC;
+    static ObservableList<Proveedor> listaProveedor;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buscarProveedor(rfc);
@@ -101,10 +106,10 @@ public class ModificarProveedorController implements Initializable {
         ResultSet rs;
         try{ 
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM aguilas.proveedor WHERE (rfc = '"+ rfc +"')");   
+            rs = stmt.executeQuery("SELECT * FROM aguilas.proveedor WHERE (RFC = '"+ rfc +"')");   
             if(rs!=null){
                 if(rs.next()){ 
-                   rfc_var = rs.getString("rfc");
+                   rfc_var = rs.getString("RFC");
                    lblRFC.setText(rfc);
                    txtRazonS1.setText(rs.getString("nombre"));
                    txtDireccion1.setText(rs.getString("direccion"));
@@ -129,7 +134,7 @@ public class ModificarProveedorController implements Initializable {
                         + ",telefono = ?"
                         + ",direccion = ?"
                         + ",email = ?"
-                        + "WHERE rfc=?";
+                        + "WHERE RFC=?";
         
         try{
             PreparedStatement pstm = con.prepareStatement(sSQL) ;
@@ -139,8 +144,12 @@ public class ModificarProveedorController implements Initializable {
             pstm.setString(4, txtEmail1.getText().trim());
             pstm.setString(5, rfc_var);
             pstm.executeUpdate(); 
-            limpiarCampos();
+            //limpiarCampos();
+            
+            listaProveedor.clear();
+            Proveedor.llenarTablaProveedores(con, listaProveedor);
             msg_exitoso.msgExitoso("Registro actualizado");  
+            ((Node)  (event.getSource())).getScene().getWindow().hide();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }

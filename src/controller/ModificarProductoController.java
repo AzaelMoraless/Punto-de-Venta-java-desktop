@@ -5,6 +5,7 @@
  */
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
 import static controller.ModificarProveedorController.rfc;
 import java.net.URL;
@@ -90,33 +91,6 @@ public class ModificarProductoController implements Initializable {
         });
     }    
 
-
-    /*private void buscar(MouseEvent event) {
-        Statement stmt;
-        ResultSet rs;
-        String busqueda = txtBuscar.getText().trim(); 
-        try{ 
-            stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM aguilas.producto WHERE (id_p = '"+ busqueda +"')");   
-            if(rs!=null){
-                if(rs.next()){ 
-                   //id_prod = rs.getInt("id_p");
-                   lbIDproduc.setText(""+id_prod);
-                   txtDescripcion.setText(rs.getString("descripcion"));
-                   
-                   txtPrecioC.setText(rs.getDouble("precio_c")+"");
-                   txtPrecioV.setText(rs.getDouble("precio_v")+"");
-                   txtExistencias.setText(rs.getInt("existencias")+""); 
-                   txRFCProv.setText(rs.getString("id_prov"));
-                }else{  
-                    txtBuscar.setText("");
-                    er.msgError("No existe el poveedor");
-                }
-            }
-        }catch(SQLException e){
-            er.msgError(e.getMessage());
-        }      
-    }*/
 
     @FXML
     private void guardar(MouseEvent event) { 

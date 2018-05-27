@@ -174,7 +174,7 @@
                <children>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/empleados.png" />
+                        <Image url="@../images/clienteWh.png" />
                      </image>
                      <HBox.margin>
                         <Insets left="15.0" />
@@ -241,7 +241,7 @@
             </HBox>
             <HBox prefHeight="38.0" prefWidth="182.0">
                <VBox.margin>
-                  <Insets top="150.0" />
+                  <Insets top="240.0" />
                </VBox.margin>
                <children>
                   <ImageView fitHeight="34.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
@@ -442,7 +442,7 @@
             </AnchorPane>
             <HBox layoutX="25.0" layoutY="84.0" prefHeight="40.0" prefWidth="632.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="642.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="80.0">
                <children>
-                  <HBox prefHeight="45.0" prefWidth="210.0">
+                  <HBox onMouseClicked="#agregarCompra" prefHeight="45.0" prefWidth="210.0">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -548,7 +548,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextField fx:id="txtBusquedaProv1" layoutX="707.0" layoutY="84.0" onInputMethodTextChanged="#filtrarProveedor" onKeyPressed="#filtrarProveedor" prefHeight="33.0" prefWidth="175.0" promptText="codigo" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="707.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="88.0">
+            <TextField fx:id="txtBusquedaProv1" layoutX="707.0" layoutY="84.0" onInputMethodTextChanged="#filtrarProveedor" onKeyPressed="#filtrarProveedor" prefHeight="33.0" prefWidth="175.0" promptText="folio de compra" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="707.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="88.0">
                <font>
                   <Font name="Roboto Condensed Light" size="15.0" />
                </font>
@@ -558,26 +558,6 @@
          <children>
             <HBox layoutX="75.0" layoutY="18.0" prefHeight="40.0" prefWidth="632.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="642.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="80.0">
                <children>
-                  <HBox fx:id="hBoxAgregarProducto" onMouseClicked="#agregarProducto" prefHeight="45.0" prefWidth="210.0">
-                     <children>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/agregar.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="134.0" text="Agregar producto">
-                           <font>
-                              <Font name="Roboto Condensed Bold" size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="5.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
                   <HBox onMouseClicked="#modificarProducto" prefHeight="48.0" prefWidth="150.0">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -654,7 +634,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <TableView fx:id="tblViewProductos" layoutX="40.0" layoutY="158.0" prefHeight="577.0" prefWidth="632.0" style="-fx-background-color: EFEDEE;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
+            <TableView fx:id="tblViewProductos" layoutX="40.0" layoutY="158.0" prefHeight="577.0" prefWidth="632.0" style="-fx-background-color: EFEDEE;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="439.0" AnchorPane.topAnchor="160.0">
               <columns>
                 <TableColumn fx:id="clmnIdProduc" prefWidth="60.0" text="ID " />
                   <TableColumn fx:id="clmnDescriProduct" prefWidth="227.0" text="DESCRIPCIÓN" />
@@ -680,7 +660,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextField fx:id="txtBuscarProducto" layoutX="693.0" layoutY="88.0" onInputMethodTextChanged="#filtrarProducto" onKeyPressed="#filtrarProducto" prefHeight="33.0" prefWidth="175.0" promptText="Buscar producto" style="-fx-border-color: #3974A3;" AnchorPane.leftAnchor="707.0" AnchorPane.rightAnchor="214.0">
+            <TextField fx:id="txtBuscarProducto" layoutX="693.0" layoutY="88.0" onInputMethodTextChanged="#filtrarProducto" onKeyPressed="#filtrarProducto" prefHeight="33.0" prefWidth="175.0" promptText="Buscar producto" style="-fx-border-color: #3974A3;" AnchorPane.bottomAnchor="641.0" AnchorPane.leftAnchor="707.0" AnchorPane.rightAnchor="214.0" AnchorPane.topAnchor="88.0">
                <font>
                   <Font name="Roboto Condensed Light" size="15.0" />
                </font>
@@ -861,7 +841,7 @@
             </VBox>
          </children></AnchorPane>
       <AnchorPane fx:id="ayudaPanel" layoutX="216.0" layoutY="89.0" prefHeight="643.0" prefWidth="964.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
-      <AnchorPane fx:id="proveedoresPanel" layoutX="220.0" layoutY="60.0" prefHeight="772.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="proveedoresPanel" layoutX="220.0" layoutY="60.0" prefHeight="772.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <AnchorPane prefHeight="48.0" prefWidth="1094.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="725.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -1035,6 +1015,141 @@
                   </Label>
                </children>
             </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="panelClientes" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+         <children>
+            <Label layoutX="14.0" prefHeight="46.0" prefWidth="137.0" text="Filtrar busqueda" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Black" size="16.0" />
+               </font>
+            </Label>
+            <HBox layoutX="922.0" layoutY="82.0" prefHeight="45.0" prefWidth="163.0" style="-fx-background-color: #5FBC5F; -fx-background-radius: 10; -fx-border-radius: 10;" AnchorPane.rightAnchor="25.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/filtrarBlanco.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label prefHeight="46.0" prefWidth="137.0" text="Filtrar busqueda" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Black" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <TextField fx:id="txtBuscarCliente" layoutX="721.0" layoutY="88.0" onInputMethodTextChanged="#filtrarProveedor" onKeyPressed="#filtrarProveedor" prefHeight="33.0" prefWidth="175.0" promptText="rfc / nombre" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="214.0">
+               <font>
+                  <Font name="Roboto Condensed Light" size="15.0" />
+               </font>
+            </TextField>
+            <HBox layoutX="56.0" layoutY="61.0" prefHeight="40.0" prefWidth="632.0" style="-fx-background-color: #EFEDEE;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="80.0">
+               <children>
+                  <HBox onMouseClicked="#vAgregarCliente" prefHeight="48.0" prefWidth="210.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/nuevousuario.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="156.0" text="Agregar  cliente">
+                           <font>
+                              <Font name="Roboto Condensed Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox onMouseClicked="#vModificarCliente" prefHeight="48.0" prefWidth="150.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/modificarcompra.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="92.0" text="Modificar">
+                           <font>
+                              <Font name="Roboto Condensed Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox onMouseClicked="#deleteCliente" prefHeight="48.0" prefWidth="118.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/icons8-eliminar-propiedad-96.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="78.0" text="Eliminar">
+                           <font>
+                              <Font name="Roboto Condensed Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox onMouseClicked="#cargarTablaClientes" prefHeight="48.0" prefWidth="155.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/cargar_tabla.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="23.0" prefWidth="115.0" text="Cargar datos">
+                           <font>
+                              <Font name="Roboto Condensed Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <AnchorPane layoutX="14.0" prefHeight="48.0" prefWidth="1094.0" style="-fx-background-color: #EFEDEE;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="65.0" layoutY="7.0" text="Clientes" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="7.0">
+                     <font>
+                        <Font name="Roboto Condensed Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="20.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="25.0">
+                     <image>
+                        <Image url="@../images/usuario.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <TableView layoutX="83.0" layoutY="161.0" prefHeight="577.0" prefWidth="632.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="RFC" />
+                <TableColumn prefWidth="75.0" text="NOMBRE" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
    </children>

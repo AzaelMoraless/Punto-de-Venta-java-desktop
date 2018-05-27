@@ -5,11 +5,13 @@
  */
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Optional;
 import modelo.TextFieldFormatter;
@@ -44,6 +46,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.text.MaskFormatter;
 import modelo.Delimitador;
+import modelo.DetalleCompra;
 import modelo.Empleado;
 import modelo.Proveedor;
 
@@ -58,13 +61,13 @@ public class AgregarProveedorController implements Initializable {
     @FXML private HBox errorDir;
     @FXML private HBox errorTel;
     @FXML private HBox errorEmail;
-     ObservableList<String> listcorreos = FXCollections.observableArrayList("@hotmail.com","@gmail.com","@outlook.com","@yahoo.com");
+    ObservableList<String> listcorreos = FXCollections.observableArrayList("@hotmail.com","@gmail.com","@outlook.com","@yahoo.com");
     
     Conexion cc = new Conexion();
     Connection con = cc.conexion();
     ErrorController msgErr = new ErrorController();
     View_successfulController msg_exitoso = new View_successfulController();
-    static ObservableList<Proveedor> listaProveedor;
+    //static ObservableList<Proveedor> listaProveedor;
     @FXML
     private AnchorPane agregarProvPanel;
     @FXML
@@ -74,7 +77,10 @@ public class AgregarProveedorController implements Initializable {
     @FXML
     private ComboBox<String> comboCorreos;
     private String email;
+    static ObservableList<Proveedor> listaProveedor;
+    
    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
        comboCorreos.setValue("@hotmail.com");
@@ -93,12 +99,16 @@ public class AgregarProveedorController implements Initializable {
         } 
         try{ 
             Statement consulta=(Statement)con.createStatement();
-            consulta.executeUpdate("insert into aguilas.proveedor (rfc,nombre,direccion,telefono,email) values('"+rfc+"','"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')");
-            msg_exitoso.msgExitoso("Proveedor agregado");
-            //SistemaController sis = new SistemaController();
-            //sis.actualizarTablaProv();
-             
+            consulta.executeUpdate("insert into aguilas.proveedor (RFC,nombre,direccion,telefono,email)"
+                    + "values('"+rfc+"','"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')"
+                    + "insert into aguilas.det_compra (folio_c,id_p,cantidad)");
             
+            
+            Proveedor p = new Proveedor(rfc, nombre, direccion, telefono, email);
+            
+            listaProveedor.add(p);
+           // Proveedor.llenarTablaProveedores(con, listaProveedor);
+            msg_exitoso.msgExitoso("Proveedor agregado");
             ((Node)  (event.getSource())).getScene().getWindow().hide();
         }catch(SQLException e){
            msgErr.msgError(e.getMessage());

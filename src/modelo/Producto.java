@@ -20,27 +20,36 @@ import javafx.collections.ObservableList;
  * @author Azael
  */
 public class Producto {
-    private final StringProperty idProduc;
+    private final StringProperty codigoProducto;
     private final StringProperty descripcion;
     private final StringProperty precio_c;
     private final StringProperty precio_v;
     private final StringProperty existencias;
+    private final StringProperty subtotal;
     
-    public Producto(String idProducto,String descripcion,String precio_c,String precio_v,
-                    String existencias){
+    public Producto(String codigoProducto,String descripcion,String precio_c,String precio_v,
+                    String existencias,String subtotal){
         
-        this.idProduc = new SimpleStringProperty(idProducto);
+        this.codigoProducto = new SimpleStringProperty(codigoProducto);
         this.descripcion = new SimpleStringProperty(descripcion);
         this.precio_c = new SimpleStringProperty(precio_c);
         this.precio_v = new SimpleStringProperty(precio_v);
         this.existencias = new SimpleStringProperty(existencias);
+        this.subtotal = new SimpleStringProperty(subtotal);
     }
     
-    public String getId_producto() {
-        return idProduc.get();
+    public String getCodigo() {
+        return codigoProducto.get();
     }
-    public StringProperty id_producto() {
-        return idProduc;
+    public StringProperty codigo() {
+        return codigoProducto;
+    }
+    
+    public StringProperty subtotal(){
+        return subtotal;
+    }
+    public String getSubtotal(){
+        return subtotal.get();
     }
     public String getDescripcion() {
         return descripcion.get();
@@ -79,11 +88,12 @@ public class Producto {
             while(result.next()){
                 lista.add(
                     new Producto(
-                        result.getString("id_p"),
+                        result.getString("codigo_prod"),
                         result.getString("descripcion"),
                         result.getString("precio_c"),
                         result.getString("precio_v"),
-                        result.getString("existencias")
+                        result.getString("existencias"),
+                        ""
                     )
                 );
             }  

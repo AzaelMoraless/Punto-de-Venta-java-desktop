@@ -47,7 +47,9 @@ public class Proveedor {
     public String getEmail() {
         return email;
     }
-  
+    public void setRFC(String rfc){
+        this.rfc = rfc;
+    }
     public static void llenarTablaProveedores(Connection connection,ObservableList<Proveedor> lista){
         try {
             Statement stmt = connection.createStatement();
@@ -55,7 +57,7 @@ public class Proveedor {
             while(result.next()){
                 lista.add(
                     new Proveedor(
-                        result.getString("rfc"),
+                        result.getString("RFC"),
                         result.getString("nombre"),
                         result.getString("direccion"),
                         result.getString("telefono"),

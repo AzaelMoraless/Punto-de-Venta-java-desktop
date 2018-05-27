@@ -5,6 +5,7 @@
  */
 package controller;
 
+import conexion.Conexion;
 import Recuperacion.Controlador;
 import Recuperacion.Correo;
 import Recuperacion.GeneratePassword;

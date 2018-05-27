@@ -5,6 +5,7 @@
  */
 package controller;
 
+import conexion.Conexion;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -45,45 +48,33 @@ import modelo.TextFieldFormatter;
  * @author Azael
  */
 public class ModificarEmpleadoController implements Initializable {
-    @FXML
-    private JFXButton btnCerrar;
-    @FXML
-    private JFXButton btnGuardar;
-    private TextField txtPuesto;
-    @FXML
-    private TextField txtEmail;
-    @FXML
-    private TextField txtNickname;
-    @FXML
-    private TextField txtTelefono;
-    @FXML
-    private TextField txtContrasenia;
-    @FXML
-    private TextField txtNombre;
-
+    @FXML private JFXButton btnCerrar;
+    @FXML private JFXButton btnGuardar;
+    @FXML private TextField txtEmail;
+    @FXML  private TextField txtNickname;
+    @FXML private TextField txtTelefono;
+    @FXML private TextField txtContrasenia;
+    @FXML private TextField txtNombre;
+    ObservableList<String> listcorreos = FXCollections.observableArrayList("@hotmail.com","@gmail.com","@outlook.com","@yahoo.com");
+     
     Conexion cc = new Conexion();
     Connection con = cc.conexion();
     ErrorController msgErr = new ErrorController();
     //static 
     static  int  id_eVar;
+    static ObservableList<Empleado> listaEmpleado;
     //Validaciones validar =  new Validaciones();
     
     ErrorController error = new ErrorController();
     View_successfulController msg_exitoso = new View_successfulController();
-    @FXML
-    private HBox errorEmail;
-    @FXML
-    private HBox errorTel;
-    @FXML
-    private HBox errorContra;
-    @FXML
-    private HBox errorNick;
-    @FXML
-    private HBox errorNombre;
-    @FXML
-    private RadioButton rbutton2;
-    @FXML
-    private RadioButton rbutton1;
+    @FXML private HBox errorEmail;
+    @FXML private HBox errorTel;
+    @FXML private HBox errorContra;
+    @FXML private HBox errorNick;
+    @FXML private HBox errorNombre;
+    @FXML private RadioButton rbutton2;
+    @FXML private RadioButton rbutton1;
+    @FXML private ComboBox<String> comboCorreos;
     
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -91,11 +82,15 @@ public class ModificarEmpleadoController implements Initializable {
        ToggleGroup toggleGroup = new ToggleGroup();
        rbutton1.setToggleGroup(toggleGroup);
        rbutton2.setToggleGroup(toggleGroup);
+       
+      // comboCorreos.setValue("@ello");
+       comboCorreos.setItems(listcorreos);
+       comboCorreos.setStyle("-fx-font: 14px \"Roboto\";");
     }    
 
     @FXML
     private void guardar(MouseEvent event) {
-        
+        String email = txtEmail.getText().trim() + comboCorreos.getSelectionModel().getSelectedItem();
         if(validarInput()==false){
             msgErr.msgError("Campo(s) incorrectos");
             return;
@@ -121,14 +116,18 @@ public class ModificarEmpleadoController implements Initializable {
             pstm.setString(2, txtTelefono.getText().trim());
             pstm.setString(3, txtNickname.getText().trim());
             pstm.setString(4, txtContrasenia.getText().trim());
-            pstm.setString(5, txtEmail.getText().trim());
+            pstm.setString(5, email);
             pstm.setString(6, puesto);
             pstm.setInt(7, id_eVar);
             pstm.executeUpdate();  
+            
+            
+            listaEmpleado.clear();
+            Empleado.llenarTablaEmpleados(con, listaEmpleado);
             msg_exitoso.msgExitoso("Registro actualizado");
-            limpiarCampos();
+            ((Node)  (event.getSource())).getScene().getWindow().hide();
         }catch(SQLException e){
-        JOptionPane.showMessageDialog(null, e.getMessage());
+                 JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
     
@@ -145,7 +144,11 @@ public class ModificarEmpleadoController implements Initializable {
                    txtTelefono.setText(rs.getString("telefono"));
                    txtNickname.setText(rs.getString("username"));
                    txtContrasenia.setText(rs.getString("contrasena"));
-                   txtEmail.setText(rs.getString("email_e"));
+                   
+                   String[] part = rs.getString("email_e").split("@");
+                   txtEmail.setText(part[0]);
+                   comboCorreos.setValue("@"+part[1]);
+
                    if(rs.getString("puesto").equals("administrador"))
                        rbutton1.setSelected(true);
                    else if(rs.getString("puesto").equals("vendedor"))
@@ -173,31 +176,7 @@ public class ModificarEmpleadoController implements Initializable {
              System.err.println("ERROR " + e.getMessage());
         }
     }
-
-    /*private void buscar(MouseEvent event) {
-        Statement stmt;
-        ResultSet rs;
-        id_eVar = Integer.parseInt(txtBuscar.getText());
-        try{ 
-            stmt = con.createStatement(); 
-            rs = stmt.executeQuery("SELECT * FROM aguilas.empleado WHERE (id_e = '"+ id_eVar +"')");   
-            if(rs!=null){
-                if(rs.next()){ 
-                   txtNombre.setText(rs.getString("nombre"));
-                   txtTelefono.setText(rs.getString("telefono"));
-                   txtNickname.setText(rs.getString("username"));
-                   txtContrasenia.setText(rs.getString("contrasena"));
-                   txtEmail.setText(rs.getString("email_e"));
-                  
-                }else{  
-                    error.msgError("No existe el poveedor");
-                    txtNombre.setText(""); 
-                }
-            }
-        }catch(SQLException e){
-         
-        }      
-    }*/
+    
     @FXML
     private void validaTel(KeyEvent event) {
         Pattern pattern =Pattern.compile("([(][0-9]{3}[)])-([0-9]{4})-([0-9]{3})"); 
@@ -210,9 +189,9 @@ public class ModificarEmpleadoController implements Initializable {
 
     @FXML
     private void validaEmail(KeyEvent event) {
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        Matcher mather = pattern.matcher(txtEmail.getText().trim()); 
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*$"); 
+        Matcher mather = pattern.matcher(txtEmail.getText().trim());
+        
         if (mather.find() == true) 
             errorEmail.setVisible(false);
         else 
