@@ -67,7 +67,6 @@ public class AgregarProveedorController implements Initializable {
     Connection con = cc.conexion();
     ErrorController msgErr = new ErrorController();
     View_successfulController msg_exitoso = new View_successfulController();
-    //static ObservableList<Proveedor> listaProveedor;
     @FXML
     private AnchorPane agregarProvPanel;
     @FXML
@@ -101,8 +100,7 @@ public class AgregarProveedorController implements Initializable {
         try{ 
             Statement consulta=(Statement)con.createStatement();
             consulta.executeUpdate("insert into aguilas.proveedor (RFC,nombre,direccion,telefono,email)"
-                    + "values('"+rfc+"','"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')"
-                    + "insert into aguilas.det_compra (folio_c,id_p,cantidad)");
+                    + "values('"+rfc+"','"+nombre+"','"+direccion+"','"+telefono+"','"+email+"')");
             
             
             Proveedor p = new Proveedor(rfc, nombre, direccion, telefono, email);

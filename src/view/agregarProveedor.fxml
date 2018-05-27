@@ -22,7 +22,7 @@
             <Font name="Roboto Bold Condensed" size="19.0" />
          </font>
       </JFXButton>
-      <Label layoutX="20.0" layoutY="61.0" text="Datos del proveedor" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="61.0">
+      <Label layoutX="20.0" layoutY="61.0" text="Datos del cliente" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="61.0">
          <font>
             <Font name="Roboto Condensed Bold" size="22.0" />
          </font>

@@ -170,7 +170,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="hBoxClientes" onMouseClicked="#mostrarPanelEmpleados" prefHeight="40.0" prefWidth="182.0">
+            <HBox fx:id="hBoxClientes" onMouseClicked="#mostrarPanelClientes" prefHeight="40.0" prefWidth="182.0">
                <children>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -424,7 +424,7 @@
             </TextField>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="comprasPanel" layoutX="226.0" layoutY="78.0" prefHeight="744.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="comprasPanel" layoutX="226.0" layoutY="78.0" prefHeight="744.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <AnchorPane layoutY="-1.0" prefHeight="48.0" prefWidth="995.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="725.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -843,7 +843,7 @@
             </VBox>
          </children></AnchorPane>
       <AnchorPane fx:id="ayudaPanel" layoutX="216.0" layoutY="89.0" prefHeight="643.0" prefWidth="964.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
-      <AnchorPane fx:id="proveedoresPanel" layoutX="220.0" layoutY="60.0" prefHeight="772.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="proveedoresPanel" layoutX="220.0" layoutY="60.0" prefHeight="772.0" prefWidth="1094.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <AnchorPane prefHeight="48.0" prefWidth="1094.0" style="-fx-background-color: #EFEDEE;" AnchorPane.bottomAnchor="725.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -1019,7 +1019,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="panelClientes" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+      <AnchorPane fx:id="panelClientes" layoutX="200.0" layoutY="56.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
          <children>
             <Label layoutX="14.0" prefHeight="46.0" prefWidth="137.0" text="Filtrar busqueda" textFill="WHITE">
                <font>
@@ -1043,7 +1043,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextField fx:id="txtBuscarCliente" layoutX="721.0" layoutY="88.0" onInputMethodTextChanged="#filtrarProveedor" onKeyPressed="#filtrarProveedor" prefHeight="33.0" prefWidth="175.0" promptText="rfc / nombre" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="214.0">
+            <TextField fx:id="txtBuscarCliente" layoutX="721.0" layoutY="88.0" onInputMethodTextChanged="#filtrarCliente" onKeyPressed="#filtrarCliente" prefHeight="33.0" prefWidth="175.0" promptText="rfc / nombre" style="-fx-border-color: #3974A3;" AnchorPane.rightAnchor="214.0">
                <font>
                   <Font name="Roboto Condensed Light" size="15.0" />
                </font>
@@ -1062,7 +1062,7 @@
                         </ImageView>
                         <Label alignment="CENTER" prefHeight="24.0" prefWidth="156.0" text="Agregar  cliente">
                            <font>
-                              <Font name="Roboto Condensed Bold" size="18.0" />
+                              <Font name="Roboto Condensed Bold" size="20.0" />
                            </font>
                            <HBox.margin>
                               <Insets left="5.0" top="10.0" />
@@ -1146,10 +1146,12 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <TableView layoutX="83.0" layoutY="161.0" prefHeight="577.0" prefWidth="632.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
+            <TableView fx:id="tablaClientes" layoutX="83.0" layoutY="161.0" prefHeight="577.0" prefWidth="632.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="160.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="RFC" />
-                <TableColumn prefWidth="75.0" text="NOMBRE" />
+                <TableColumn fx:id="clmnRFCcliente" prefWidth="139.0" text="RFC" />
+                <TableColumn fx:id="clmnNombreCliente" prefWidth="154.0" text="NOMBRE" />
+                  <TableColumn fx:id="clmnTeleCliente" prefWidth="135.0" text="TELEFONO" />
+                  <TableColumn fx:id="clmnEmailCliente" prefWidth="203.0" text="EMAIL" />
               </columns>
             </TableView>
          </children>

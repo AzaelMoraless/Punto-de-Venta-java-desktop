@@ -42,7 +42,7 @@ import javax.swing.JOptionPane;
 
 public class LoginController implements Initializable {
     
-    ObservableList<String> cargoList = FXCollections.observableArrayList("administrador","empleado");
+    ObservableList<String> cargoList = FXCollections.observableArrayList("administrador","vendedor");
     @FXML private TextField tfUsuario;
     @FXML private TextField tfPassword;
     @FXML private VBox etiq_error;

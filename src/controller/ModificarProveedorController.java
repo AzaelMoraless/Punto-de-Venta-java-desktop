@@ -71,36 +71,11 @@ public class ModificarProveedorController implements Initializable {
     @FXML
     private Label lblRFC;
     static ObservableList<Proveedor> listaProveedor;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buscarProveedor(rfc);
     }
-    
-    /*public void buscar(MouseEvent event){
-        Statement stmt;
-        ResultSet rs;
-        String busqueda = txtBuscar.getText().trim(); 
-        try{ 
-            stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM aguilas.proveedor WHERE (rfc = '"+ busqueda +"')");   
-            if(rs!=null){
-                if(rs.next()){ 
-                   lblRFC.setText(rfc);
-                   rfc_var = rs.getString("rfc");
-                   txtRazonS1.setText(rs.getString("nombre"));
-                   txtDireccion1.setText(rs.getString("direccion"));
-                   txtTelefono1.setText(rs.getString("telefono"));
-                   txtEmail1.setText(rs.getString("email"));  
-                }else{  
-                    txtBuscar.setText("");
-                    er.msgError("No existe el poveedor");
-                }
-            }
-        }catch(SQLException e){
-          
-        }      
-    }*/
-    
     public void buscarProveedor(String rfc_v){
         Statement stmt;
         ResultSet rs;
@@ -160,12 +135,9 @@ public class ModificarProveedorController implements Initializable {
         ((Node)  (event.getSource())).getScene().getWindow().hide();
     }
     
-    public void detectaTecla(KeyEvent evt){
-          txtRazonS1.setText(""); txtTelefono1.setText(""); txtDireccion1.setText(""); txtEmail1.setText("");
-          txtRazonS1.setPromptText(""); txtTelefono1.setPromptText(""); txtDireccion1.setPromptText(""); txtEmail1.setPromptText("");
-    }
+
     
-        @FXML
+    @FXML
     public void validaEmail(KeyEvent event){
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                         + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");

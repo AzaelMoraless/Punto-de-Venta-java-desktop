@@ -28,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -38,6 +39,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import modelo.Cliente;
 import modelo.Compra;
 import modelo.Empleado;
 import modelo.Producto;
@@ -48,16 +50,19 @@ public class SistemaController implements Initializable {
     private ObservableList<Empleado> listaEmpleado;
     private ObservableList<Producto> listaProducto;
     private ObservableList<Compra> listaCompra;
-     
+    private ObservableList<Cliente> listaCliente;
+    
     @FXML private TableView<Proveedor> tblViewProveedores;
     @FXML private TableView<Empleado> tblViewEmpleados;
     @FXML private TableView<Producto> tblViewProductos;
-    
+    @FXML private TableView<Cliente> tablaClientes;
     
     private FilteredList<Proveedor> filteredData;
     private FilteredList<Empleado> filteredDataEmpleado;
     private FilteredList<Producto> filteredDataProducto;
     private FilteredList<Compra> filteredDataCompra;
+     private FilteredList<Cliente> filteredDataCliente;
+    
     //columnas proveedor
     
     @FXML private TableColumn<Proveedor,String> clmnRfcProv;  //clmnRfcProv
@@ -82,6 +87,12 @@ public class SistemaController implements Initializable {
     @FXML private TableColumn<Producto,String> clmnPrecioVProduc;
     @FXML private TableColumn<Producto,String> clmnPrecioCProd;
     
+    //columnas cliente
+    @FXML private TableColumn<Cliente, String> clmnRFCcliente;
+    @FXML private TableColumn<Cliente, String> clmnNombreCliente;
+    @FXML private TableColumn<Cliente, String> clmnTeleCliente;
+    @FXML private TableColumn<Cliente, String> clmnEmailCliente;
+    
     //
     @FXML private Label label_user;
     @FXML private AnchorPane ventasPanel;  // 1 
@@ -91,8 +102,9 @@ public class SistemaController implements Initializable {
     @FXML private AnchorPane empleadosPanel; //5
     @FXML private AnchorPane ayudaPanel; //6
     @FXML private AnchorPane panelAcercade; //7
+    @FXML private AnchorPane panelClientes;
      
-    @FXML private HBox hBoxVentas,hBoxProductos,hBoxProv,hBoxCompras,hBoxEmpleados,hBoxAyuda,hBoxAcerca;
+    @FXML private HBox hBoxVentas,hBoxProductos,hBoxProv,hBoxCompras,hBoxEmpleados,hBoxAyuda,hBoxAcerca,hBoxClientes;
     @FXML private TextField txtBusquedaProv;
     View_successfulController msg_exitoso = new View_successfulController();
     ErrorController er = new ErrorController();
@@ -100,6 +112,7 @@ public class SistemaController implements Initializable {
     private boolean flagLoadEmple;
     private boolean flagLoadProduct;
     private boolean flagLoadCompra;
+    private boolean flagLoadCliente;
     
     static String user_n;
     static int llave_id_empleado;
@@ -114,10 +127,7 @@ public class SistemaController implements Initializable {
 
     @FXML private TextField txtBuscarEmpleado;
     @FXML private TextField txtBuscarProducto;
-    @FXML
-    private HBox hBoxClientes;
-    @FXML
-    private AnchorPane panelClientes;
+    
     @FXML
     private TextField txtBuscarCliente;
     
@@ -130,19 +140,21 @@ public class SistemaController implements Initializable {
     
     @FXML
     private TextField buscarCompra;
+   
+   
   
 
-    
-    
-  
 
-    
-    
     @Override 
     public void initialize(URL url, ResourceBundle rb) {
        label_user.setText(user_n); 
+       inicializarTablaProveedor();
+       inicializarTablaClientes();
+       inicializarTablaEmpleados();
+      // inicializarTablaProductos();
+       inicializarTablaCompras();
     } 
-    
+    ///FILTRAR BUSQUEDAS
     @FXML
     public void filtrarProveedor(){
         if(flagLoadProv){
@@ -217,40 +229,87 @@ public class SistemaController implements Initializable {
             return;
         } 
     }
-    
-    @FXML 
-    public void cerrarSesion(MouseEvent event) throws IOException{
-       ((Node)  (event.getSource())).getScene().getWindow().hide();
-       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\Login.fxml");
+      @FXML
+    private void filtrarCompra(KeyEvent event) {
+        if(flagLoadCompra){
+        buscarCompra.textProperty().addListener((observableValue,oldValue,newValue)->{
+        filteredDataCompra.setPredicate((Predicate<? super Compra>) produc->{
+            if(newValue== null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter =newValue.toLowerCase();
+            if(produc.getFolio().contains(newValue))
+                return true;
+            if(produc.getRFCP().toLowerCase().contains(lowerCaseFilter))
+                return true;
+            return false;
+             });
+            });
+            SortedList<Compra>  sortedData = new SortedList<>(filteredDataCompra);
+            sortedData.comparatorProperty().bind(tablaCompras.comparatorProperty());
+            tablaCompras.setItems(sortedData);
+        }else{
+            return;
+        } 
     }
- 
-    @FXML 
-    public void cargarTablaProveedores(MouseEvent evt){ // cargar datos proveedores 
-       //inicializa lista
-       listaProveedor = FXCollections.observableArrayList();
-       Proveedor.llenarTablaProveedores(con, listaProveedor);
-       //enlazar observable con tableview
+
+    @FXML
+    private void filtrarCliente(KeyEvent event) {
+        if(flagLoadCliente){
+        txtBuscarCliente.textProperty().addListener((observableValue,oldValue,newValue)->{
+        filteredDataCliente.setPredicate((Predicate<? super Cliente>) cliente->{
+            if(newValue== null || newValue.isEmpty()){
+                return true;
+            }
+            String lowerCaseFilter =newValue.toLowerCase();
+            if(cliente.getRFC().contains(newValue.toUpperCase()))
+                return true;
+            if(cliente.getNombre().toLowerCase().contains(lowerCaseFilter))
+                return true;
+            return false;
+             });
+            });
+            SortedList<Cliente>  sortedData = new SortedList<>(filteredDataCliente);
+            sortedData.comparatorProperty().bind(tablaClientes.comparatorProperty());
+            tablaClientes.setItems(sortedData);
+        }else{
+            return;
+        } 
+    }
+    
+    
+    
+    
+    public void inicializarTablaProveedor(){
+        listaProveedor = FXCollections.observableArrayList();
+        Proveedor.llenarTablaProveedores(con, listaProveedor);
         tblViewProveedores.setItems(listaProveedor); 
-       //enlazar columnas con atributo
-      
         clmnRfcProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("rfc"));
         clmnNombreProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("nombre"));  
         clmnDirProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("direccion"));
         clmnTelProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("telefono"));
         clmnEmailProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("email"));
-     
         filteredData =new FilteredList<>(listaProveedor,e->true);
-        flagLoadProv = true;
+       flagLoadProv = true; 
+       
     }
-    
-    @FXML 
-    public void cargarTablaEmpleados(MouseEvent evt){ // cargar datos proveedores 
-       //inicializa lista
+    public void inicializarTablaClientes(){
+        listaCliente = FXCollections.observableArrayList();
+        Cliente.llenarTablaClientes(con, listaCliente);
+        tablaClientes.setItems(listaCliente);
+        clmnRFCcliente.setCellValueFactory(cellData -> cellData.getValue().getPropertyRFC());
+        clmnNombreCliente.setCellValueFactory(new PropertyValueFactory<Cliente,String>("nombre"));
+        clmnTeleCliente.setCellValueFactory(new PropertyValueFactory<Cliente,String>("telefono"));
+        clmnEmailCliente.setCellValueFactory(cellData -> cellData.getValue().getPropertyEmail());
+        filteredDataCliente =new FilteredList<>(listaCliente,e->true);
+        flagLoadCliente = true;
+    }
+    public void inicializarTablaEmpleados(){
+         //inicializa lista
        listaEmpleado = FXCollections.observableArrayList();
        Empleado.llenarTablaEmpleados(con, listaEmpleado);
        //enlazar observable con tableview
         tblViewEmpleados.setItems(listaEmpleado); 
-       //enlazar columnas con atributo
         clmnIdEmpleado.setCellValueFactory(new PropertyValueFactory<Empleado,String>("id_e"));
         clmnNombreEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("nombre")); 
         clmnTelEmpleado.setCellValueFactory(new PropertyValueFactory<Empleado,String>("telefono"));  
@@ -258,33 +317,82 @@ public class SistemaController implements Initializable {
         clmnContraEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("contrasena")); 
         clmnEmailEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("email_e"));
         clmnPuestoEmple.setCellValueFactory(new PropertyValueFactory<Empleado,String>("puesto")); 
-     
         filteredDataEmpleado =new FilteredList<>(listaEmpleado,e->true);
         flagLoadEmple = true;
-    }
-    @FXML
-    private void cargarTablaProducts(MouseEvent event){  
-               //inicializa lista
-       listaProducto = FXCollections.observableArrayList();
-       Producto.llenarTablaProductos(con, listaProducto);
-       //enlazar observable con tableview
+    }  
+    public void inicializarTablaProductos(){
+        listaProducto = FXCollections.observableArrayList();
+        Producto.llenarTablaProductos(con, listaProducto);
         tblViewProductos.setItems(listaProducto); 
-       //enlazar columnas con atributo
         clmnIdProduc.setCellValueFactory(cellData -> cellData.getValue().codigo());
-        //clmnIdProduc.setCellValueFactory(new PropertyValueFactory<Producto,String>("idProduc"));
         clmnDescriProduct.setCellValueFactory(new PropertyValueFactory<Producto, String>("descripcion"));  
-       // clmnPrecioCProd.setCellValueFactory(new PropertyValueFactory<Producto, String>("precio_c"));
         clmnPrecioCProd.setCellValueFactory(cellData -> cellData.getValue().precio_compra());
-        //clmnPrecioVProduc.setCellValueFactory(new PropertyValueFactory<Producto, String>("precio_v"));
-         clmnPrecioVProduc.setCellValueFactory(cellData -> cellData.getValue().precio_venta());
-        
+        clmnPrecioVProduc.setCellValueFactory(cellData -> cellData.getValue().precio_venta());
         clmnExisProduct.setCellValueFactory(new PropertyValueFactory<Producto, String>("existencias"));
-     
         filteredDataProducto =new FilteredList<>(listaProducto,p->true);
         flagLoadProduct = true;
     }
+    public void inicializarTablaCompras(){
+       listaCompra = FXCollections.observableArrayList();
+        Compra.llenarTablaCompras(con, listaCompra);
+        tablaCompras.setItems(listaCompra); 
+        clmnFolioCompra.setCellValueFactory(cellData -> cellData.getValue().getPropertyFolio());
+        clmnRFCProvCompra.setCellValueFactory(cellData -> cellData.getValue().getRfc_proveedor());  
+        clmnFechaCompra.setCellValueFactory(cellData -> cellData.getValue().getDate());
+        clmnRecibioCompra.setCellValueFactory(cellData -> cellData.getValue().getRecibio());
+        clmnTotalCompra.setCellValueFactory(cellData -> cellData.getValue().getTotal());
+        filteredDataCompra =new FilteredList<>(listaCompra,p->true);
+        flagLoadCompra = true;
+    }
     
+    //CARGAR DATOS EN LAS TABLAS
+    @FXML 
+    public void cargarTablaProveedores(MouseEvent evt){ // cargar datos proveedores 
+       listaProveedor = FXCollections.observableArrayList();
+       Proveedor.llenarTablaProveedores(con, listaProveedor);
+       tblViewProveedores.setItems(listaProveedor); 
+       filteredData =new FilteredList<>(listaProveedor,e->true);
+       flagLoadProv = true; 
+    }
     
+    @FXML 
+    public void cargarTablaEmpleados(MouseEvent evt){ // cargar datos proveedores 
+        listaEmpleado = FXCollections.observableArrayList();
+        Empleado.llenarTablaEmpleados(con, listaEmpleado);
+        tblViewEmpleados.setItems(listaEmpleado); 
+        filteredDataEmpleado =new FilteredList<>(listaEmpleado,e->true);
+        flagLoadEmple = true;
+    }
+    
+    @FXML
+    private void cargarTablaProducts(MouseEvent event){  
+       listaProducto = FXCollections.observableArrayList();
+       Producto.llenarTablaProductos(con, listaProducto);
+       tblViewProductos.setItems(listaProducto); 
+       filteredDataProducto =new FilteredList<>(listaProducto,p->true);
+       flagLoadProduct = true;
+    }
+    
+    @FXML
+    private void cargarTablaCompras(MouseEvent event) {
+        listaCompra = FXCollections.observableArrayList();
+        Compra.llenarTablaCompras(con, listaCompra);
+        tablaCompras.setItems(listaCompra); 
+        filteredDataCompra =new FilteredList<>(listaCompra,p->true);
+        flagLoadCompra = true;
+    }
+    
+    @FXML
+    private void cargarTablaClientes(MouseEvent event) {
+        listaCliente = FXCollections.observableArrayList();
+        Cliente.llenarTablaClientes(con, listaCliente);
+        tablaClientes.setItems(listaCliente); 
+        filteredDataCliente =new FilteredList<>(listaCliente,e->true);
+        flagLoadCliente = true;
+    }
+    
+  
+    //ELIMINAR ELEMNTO DE TABLAS
     @FXML 
     public void deleteProveedor(MouseEvent evt){  // eliminar proveedor 
         ObservableList<Proveedor> proveedorSelected;
@@ -315,7 +423,7 @@ public class SistemaController implements Initializable {
                         System.out.println("Error: " + e.getMessage());
                     }
             } else {
-                System.err.println("false");
+               // System.err.println("false");
             }    
     }
     
@@ -392,6 +500,40 @@ public class SistemaController implements Initializable {
                          er.msgError(e.getMessage());
                     }
             }    
+    }
+   @FXML
+    private void deleteCliente(MouseEvent event) {
+        ObservableList<Cliente> clienteSelected;
+        clienteSelected = tablaClientes.getSelectionModel().getSelectedItems();
+        Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();
+        
+        if(clienteSelected.isEmpty()){
+            er.msgError("No se ha seleccionado el\n elemento a eliminar");
+            return;
+        }
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("confirmacion");
+            alert.setContentText("¿QUIERES ELIMINAR EL REGISTRO?" +  "\nCliente \nRFC: " +cliente.getRFC()
+                                + "\t\t Nombre: "+ cliente.getNombre()
+                                + "\nTelefono: " + cliente.getTelefono()
+                                + "\t Email: " + cliente.getEmail());
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            
+            if (result.get() == ButtonType.OK){
+                 String rfc = cliente.getRFC();
+                 
+                 clienteSelected.forEach(listaCliente::remove);
+                    try{
+                        PreparedStatement st = con.prepareStatement("DELETE FROM aguilas.cliente WHERE RFC_cliente = ?");
+                        st.setString(1,rfc);
+                        st.executeUpdate();  
+                        msg_exitoso.msgExitoso("Registro eliminado");
+                         
+                    }catch(SQLException e){
+                        System.out.println("Error: " + e.getMessage());
+                    }
+            }
     }
     public void lanzarVentana(String ruta_view_fxml){
          try{ 
@@ -484,10 +626,29 @@ public class SistemaController implements Initializable {
         }
     }
     
+    
+    @FXML
+    private void vModificarCliente(MouseEvent event) {
+        ObservableList<Cliente> clienteSelected;
+        clienteSelected = tablaClientes.getSelectionModel().getSelectedItems();
+        Cliente cliente = tablaClientes.getSelectionModel().getSelectedItem();
+
+        if(clienteSelected.isEmpty()){
+            er.msgError("No se ha seleccionado  \n el elemento a eliminar");
+            return;
+        }else{
+            String rfc_c = cliente.getRFC();
+            ModificarClienteController.rfc_cliente = rfc_c;  
+            lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarCliente.fxml");
+            ModificarClienteController.listaCliente = listaCliente;
+        }
+    }
+    
+    
     @FXML
     private void agregarEmpleado(MouseEvent event) {
         lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarEmpleado.fxml");
-        AgregarEmpleadoController.listaEmpleado = listaEmpleado;
+        AgregarClienteController.listaCliente = listaCliente;
     }
     
        
@@ -499,6 +660,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxAyuda);
         setSeleccionColor(hBoxAcerca);
+        setSeleccionColor(hBoxClientes);
         hBoxVentas.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
         visible(2, false);
         visible(1, true);
@@ -507,6 +669,7 @@ public class SistemaController implements Initializable {
         visible(5, false);
         visible(6, false);
         visible(7, false);
+        visible(8, false);
     }
     @FXML 
     public void mostrarPanelProductos(MouseEvent event){ // 2
@@ -516,6 +679,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxAyuda);
         setSeleccionColor(hBoxAcerca);
+        setSeleccionColor(hBoxClientes);
         hBoxProductos.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
         visible(2, true);
         visible(1, false);
@@ -524,6 +688,7 @@ public class SistemaController implements Initializable {
         visible(5, false);
         visible(6, false);
         visible(7, false);
+        visible(8, false);
     }
     @FXML 
     public void mostrarPanelCompras(MouseEvent event){//3
@@ -533,6 +698,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxAyuda);
         setSeleccionColor(hBoxAcerca);
+        setSeleccionColor(hBoxClientes);
         hBoxCompras.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
         visible(3, true);
         visible(1, false);
@@ -541,6 +707,7 @@ public class SistemaController implements Initializable {
         visible(5, false);
         visible(6, false);
         visible(7, false);
+        visible(8, false);
     }
     @FXML 
     public void mostrarPanelProveedores(MouseEvent event){//4
@@ -550,6 +717,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxAyuda);
         setSeleccionColor(hBoxAcerca);
+        setSeleccionColor(hBoxClientes);
         hBoxProv.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
        
         visible(4, true);
@@ -559,7 +727,8 @@ public class SistemaController implements Initializable {
         visible(5, false);
         visible(6, false);
         visible(7, false);
-         }
+        visible(8, false);
+    }
     @FXML 
     public void mostrarPanelEmpleados(MouseEvent event){//5
         setSeleccionColor(hBoxVentas);
@@ -568,6 +737,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxCompras);
         setSeleccionColor(hBoxAyuda);
         setSeleccionColor(hBoxAcerca);
+        setSeleccionColor(hBoxClientes);
         hBoxEmpleados.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
    
         visible(5, true);
@@ -577,6 +747,7 @@ public class SistemaController implements Initializable {
         visible(4, false);
         visible(6, false);
         visible(7, false);
+        visible(8, false);
     }
     @FXML 
     public void mostrarPanelAyuda(MouseEvent event){//6
@@ -586,15 +757,16 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxCompras);
         setSeleccionColor(hBoxAcerca);
-        
+          setSeleccionColor(hBoxClientes);
         hBoxAyuda.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
         visible(1, false);
         visible(6, true);  
         visible(2, false);
-         visible(3, false);
+        visible(3, false);
         visible(4, false);
         visible(5, false);
         visible(7, false);
+        visible(8, false);
     }
     @FXML 
     public void mostrarPanelAcercade(MouseEvent event){//6
@@ -604,6 +776,7 @@ public class SistemaController implements Initializable {
         setSeleccionColor(hBoxEmpleados);
         setSeleccionColor(hBoxCompras);
         setSeleccionColor(hBoxAyuda);
+        setSeleccionColor(hBoxClientes);
         hBoxAcerca.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
         visible(1, false);
         visible(6, false);  
@@ -612,7 +785,28 @@ public class SistemaController implements Initializable {
         visible(4, false);
         visible(5, false);
         visible(7, true);
+        visible(8, false);
     }
+    @FXML
+    private void mostrarPanelClientes(MouseEvent event) {
+        setSeleccionColor(hBoxVentas);
+        setSeleccionColor(hBoxProductos);
+        setSeleccionColor(hBoxProv);
+        setSeleccionColor(hBoxEmpleados);
+        setSeleccionColor(hBoxCompras);
+        setSeleccionColor(hBoxAyuda);
+        setSeleccionColor(hBoxAcerca);
+        hBoxClientes.setBackground(new Background(new BackgroundFill(Color.web("#3C8DBC"), new CornerRadii(2),javafx.geometry.Insets.EMPTY)));   
+        visible(1, false);
+        visible(6, false);  
+        visible(2, false);
+        visible(3, false);
+        visible(4, false);
+        visible(5, false);
+        visible(7, false);
+        visible(8, true);
+    }
+    
     public void visible(int n,boolean b){ // visibilidad de paneles
         switch(n){
             case 1: ventasPanel.setVisible(b);
@@ -629,6 +823,8 @@ public class SistemaController implements Initializable {
             break;
             case 7: panelAcercade.setVisible(b);
             break;             
+            case 8: panelClientes.setVisible(b);
+            break;
          }
     } 
     public void setSeleccionColor(HBox hbox){  // cambia de color el HBOX seleccionado
@@ -637,19 +833,15 @@ public class SistemaController implements Initializable {
 
     @FXML
     private void vAgregarCliente(MouseEvent event) {
+        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarCliente.fxml");
+        AgregarClienteController.listaCliente = listaCliente;
     }
 
-    @FXML
-    private void vModificarCliente(MouseEvent event) {
-    }
+    
 
-    @FXML
-    private void deleteCliente(MouseEvent event) {
-    }
+    
 
-    @FXML
-    private void cargarTablaClientes(MouseEvent event) {
-    }
+   
 
     @FXML
     private void agregarCompra(MouseEvent event) {
@@ -697,47 +889,16 @@ public class SistemaController implements Initializable {
             }   
     }
 
-    @FXML
-    private void cargarTablaCompras(MouseEvent event) {
-        //inicializa lista
-        listaCompra = FXCollections.observableArrayList();
-        Compra.llenarTablaCompras(con, listaCompra);
-       //enlazar observable con tableview
-        tablaCompras.setItems(listaCompra); 
-       //enlazar columnas con atributo
-        clmnFolioCompra.setCellValueFactory(cellData -> cellData.getValue().getPropertyFolio());
-        clmnRFCProvCompra.setCellValueFactory(cellData -> cellData.getValue().getRfc_proveedor());  
-        clmnFechaCompra.setCellValueFactory(cellData -> cellData.getValue().getDate());
-        clmnRecibioCompra.setCellValueFactory(cellData -> cellData.getValue().getRecibio());
-        clmnTotalCompra.setCellValueFactory(cellData -> cellData.getValue().getTotal());
-     
-        filteredDataCompra =new FilteredList<>(listaCompra,p->true);
-        flagLoadCompra = true;
+    
+  
+
+    @FXML 
+    public void cerrarSesion(MouseEvent event) throws IOException{
+       ((Node)  (event.getSource())).getScene().getWindow().hide();
+       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\Login.fxml");
     }
 
-    @FXML
-    private void filtrarCompra(KeyEvent event) {
-         if(flagLoadCompra){
-        buscarCompra.textProperty().addListener((observableValue,oldValue,newValue)->{
-        filteredDataCompra.setPredicate((Predicate<? super Compra>) produc->{
-            if(newValue== null || newValue.isEmpty()){
-                return true;
-            }
-            String lowerCaseFilter =newValue.toLowerCase();
-            if(produc.getFolio().contains(newValue))
-                return true;
-            if(produc.getRFCP().toLowerCase().contains(lowerCaseFilter))
-                return true;
-            return false;
-             });
-            });
-            SortedList<Compra>  sortedData = new SortedList<>(filteredDataCompra);
-            sortedData.comparatorProperty().bind(tablaCompras.comparatorProperty());
-            tablaCompras.setItems(sortedData);
-        }else{
-            return;
-        } 
-    }
+    
    
    
 }

@@ -75,7 +75,7 @@ public class Compra {
         return total.get();
     }
     
-     public static void llenarTablaCompras(Connection connection,ObservableList<Compra> lista){
+    public static void llenarTablaCompras(Connection connection,ObservableList<Compra> lista){
         try {
             Statement stmt = connection.createStatement();
             ResultSet result  = stmt.executeQuery("SELECT * FROM aguilas.compra");
