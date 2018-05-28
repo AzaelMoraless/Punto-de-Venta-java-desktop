@@ -115,10 +115,10 @@ public class AgregarEmpleadoController implements Initializable {
             Statement consulta=(Statement)con.createStatement();
             consulta.executeUpdate("insert into aguilas.empleado (nombre,telefono,username,contrasena,email_e,puesto) values('"+nombre+"','"+telefono+"','"+nickname+"','"+contrasenia+"','"+email+"','"+puesto+"')");
             
-           // Empleado e = new Empleado(email, nombre, telefono, nickname, contrasenia, email, puesto);
-            listaEmpleado.clear();
-            Empleado.llenarTablaEmpleados(con, listaEmpleado);
-            msg_exitoso.msgExitoso("Empledo agregado");
+           //Empleado e = new Empleado(email, nombre, telefono, nickname, contrasenia, email, puesto);
+           //listaEmpleado.add(e);
+           
+           msg_exitoso.msgExitoso("Empledo agregado");
             limpiarCampos();
         }catch(SQLException e){
            msgErr.msgError(e.getMessage());
