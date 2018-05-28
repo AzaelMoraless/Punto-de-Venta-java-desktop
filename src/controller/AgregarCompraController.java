@@ -184,7 +184,7 @@ public class AgregarCompraController implements Initializable {
 
     @FXML
     private void buscarProveedor(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\buscarProveedor.fxml");
+        lanzarVentana("/view/buscarProveedor.fxml");
     }
 
     @FXML //agregar Compra
@@ -428,8 +428,9 @@ public class AgregarCompraController implements Initializable {
     
      public void lanzarVentana(String ruta_view_fxml){
          try{ 
-            URL url = Paths.get(ruta_view_fxml).toUri().toURL();
-            Parent root = FXMLLoader.load(url);
+            //URL url = Paths.get(ruta_view_fxml).toUri().toURL();
+            //Parent root = FXMLLoader.load(url);
+            Parent root = FXMLLoader.load(getClass().getResource(ruta_view_fxml));
             Stage stage= new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);

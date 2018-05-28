@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -71,7 +72,7 @@ public class AgregarEmpleadoController implements Initializable {
     private RadioButton rbutton1;
     @FXML
     private RadioButton rbutton2;
-    static ObservableList<Empleado> listaEmpleado;
+    static ObservableList<Empleado> listaEmp;
     @FXML
     private ComboBox<String> comboCorreos;
     private ObservableList<String> listcorreos = FXCollections.observableArrayList("@hotmail.com","@gmail.com","@outlook.com","@yahoo.com");
@@ -115,11 +116,16 @@ public class AgregarEmpleadoController implements Initializable {
             Statement consulta=(Statement)con.createStatement();
             consulta.executeUpdate("insert into aguilas.empleado (nombre,telefono,username,contrasena,email_e,puesto) values('"+nombre+"','"+telefono+"','"+nickname+"','"+contrasenia+"','"+email+"','"+puesto+"')");
             
-           //Empleado e = new Empleado(email, nombre, telefono, nickname, contrasenia, email, puesto);
-           //listaEmpleado.add(e);
-           
-           msg_exitoso.msgExitoso("Empledo agregado");
-            limpiarCampos();
+
+           Empleado e = new Empleado("", nombre, telefono, nickname, contrasenia, email, puesto);
+           listaEmp.add(e);
+                   //listaEmpleado.clear();
+            //SistemaController.listaEmpleado.clear();
+            //Empleado.llenarTablaEmpleados(con, SistemaController.listaEmpleado);
+           // SistemaController.filteredDataEmpleado  =new FilteredList<>(listaEmpleado,e->true);
+            
+            msg_exitoso.msgExitoso("Empledo agregado");
+            ((Node)  (event.getSource())).getScene().getWindow().hide();
         }catch(SQLException e){
            msgErr.msgError(e.getMessage());
         }    

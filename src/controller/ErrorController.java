@@ -46,8 +46,7 @@ public class ErrorController implements Initializable{
     public  void msgError(String mensaje){
         try{ 
             ErrorController.mensajeErr = mensaje;
-            URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\errorView.fxml").toUri().toURL();
-            Parent root = FXMLLoader.load(url);
+            Parent root = FXMLLoader.load(getClass().getResource("/view/errorView.fxml"));
             Stage stage= new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Error");

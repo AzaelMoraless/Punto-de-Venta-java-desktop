@@ -49,6 +49,9 @@ public class ModificarClienteController implements Initializable {
     @FXML private HBox errorEmail;
     @FXML private JFXButton btnGuardar;
     @FXML private JFXButton btnCancelar;
+    ObservableList<String> listcorreos = FXCollections.observableArrayList("@hotmail.com","@gmail.com","@outlook.com","@yahoo.com");
+     
+    
     static ObservableList<Cliente> listaCliente;
     static String rfc_cliente;
     
@@ -62,6 +65,8 @@ public class ModificarClienteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buscarCliente(rfc_cliente);
+         comboCorreos.setItems(listcorreos);
+       comboCorreos.setStyle("-fx-font: 14px \"Roboto\";");
     }    
     public void buscarCliente(String rfc_c){
         Statement stmt;
@@ -74,7 +79,11 @@ public class ModificarClienteController implements Initializable {
                    txtRFC.setText(rfc_c);
                    txtNombre.setText(rs.getString("nombre"));
                    txtTelefono.setText(rs.getString("telefono"));
-                   txtEmail.setText(rs.getString("email"));  
+                   //txtEmail.setText(rs.getString("email"));  
+                
+                   String[] part = rs.getString("email").split("@");
+                   txtEmail.setText(part[0]);
+                   comboCorreos.setValue("@"+part[1]);
                 }else{  
                     msgErr.msgError("No existe el cliente");
                 }

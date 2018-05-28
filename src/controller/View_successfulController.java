@@ -50,9 +50,7 @@ public class View_successfulController implements Initializable {
     public  void msgExitoso(String msg){
         try{ 
             View_successfulController.mensaje = msg;
-
-            URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\view_successful.fxml").toUri().toURL();
-            Parent root = FXMLLoader.load(url);
+            Parent root = FXMLLoader.load(getClass().getResource("/view/view_successful.fxml"));
             Stage stage= new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Exitoso");

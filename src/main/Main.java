@@ -15,9 +15,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primary_stage) throws Exception {
-        URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\Login.fxml").toUri().toURL();
+        //URL url = Paths.get("/Sistema/src/view/Login.fxml").toUri().toURL();
         //URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
-        Parent root = FXMLLoader.load(url);
+        //Parent root = FXMLLoader.load(url);
+        
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
         Scene scene = new Scene(root);   
         primary_stage.setScene(scene);
         primary_stage.setTitle("Las Aguilas");

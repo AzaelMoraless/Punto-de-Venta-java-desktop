@@ -90,8 +90,9 @@ public class LoginController implements Initializable {
                         SistemaController.user_n = user_name;    // pasar el usuario 
                         SistemaController.llave_id_empleado = rs.getInt("id_e"); //pasar el id_empleado
                         
-                        URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
-                        Parent root = FXMLLoader.load(url);
+                        //URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
+                       // Parent root = FXMLLoader.load(url);
+                        Parent root = FXMLLoader.load(getClass().getResource("/view/sistema.fxml"));
                         Stage stage= new Stage();
                         stage.setResizable(false);
                         stage.setScene(new Scene(root));
@@ -124,8 +125,9 @@ public class LoginController implements Initializable {
                     if(cargo.getSelectionModel().getSelectedItem().equalsIgnoreCase(rs.getString("puesto"))){
                         ((Node)  (evento.getSource())).getScene().getWindow().hide();
                         SistemaController.user_n = user_name;
-                        URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
-                        Parent root = FXMLLoader.load(url);
+                       // URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\sistema.fxml").toUri().toURL();
+                        //Parent root = FXMLLoader.load(url);
+                        Parent root = FXMLLoader.load(getClass().getResource("/view/sistema.fxml"));
                         Stage stage= new Stage();
                         stage.setResizable(false);
                         stage.setScene(new Scene(root));
@@ -146,8 +148,7 @@ public class LoginController implements Initializable {
     @FXML 
     public void recuperar_contrasenia(MouseEvent evt){
          try{ 
-            URL url = Paths.get("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\view_recup_contrasenia.fxml").toUri().toURL();
-            Parent root = FXMLLoader.load(url);
+            Parent root = FXMLLoader.load(getClass().getResource("/view/view_recup_contrasenia.fxml"));
             Stage stage= new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);

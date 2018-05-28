@@ -58,7 +58,7 @@ public class SistemaController implements Initializable {
     @FXML private TableView<Cliente> tablaClientes;
     
     private FilteredList<Proveedor> filteredData;
-    private FilteredList<Empleado> filteredDataEmpleado;
+     private FilteredList<Empleado> filteredDataEmpleado;
     private FilteredList<Producto> filteredDataProducto;
     private FilteredList<Compra> filteredDataCompra;
      private FilteredList<Cliente> filteredDataCliente;
@@ -290,7 +290,7 @@ public class SistemaController implements Initializable {
         clmnTelProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("telefono"));
         clmnEmailProv.setCellValueFactory(new PropertyValueFactory<Proveedor,String>("email"));
         filteredData =new FilteredList<>(listaProveedor,e->true);
-       flagLoadProv = true; 
+        flagLoadProv = true; 
        
     }
     public void inicializarTablaClientes(){
@@ -537,8 +537,9 @@ public class SistemaController implements Initializable {
     }
     public void lanzarVentana(String ruta_view_fxml){
          try{ 
-            URL url = Paths.get(ruta_view_fxml).toUri().toURL();
-            Parent root = FXMLLoader.load(url);
+            //URL url = Paths.get(ruta_view_fxml).toUri().toURL();
+           // Parent root = FXMLLoader.load(url);
+            Parent root = FXMLLoader.load(getClass().getResource(ruta_view_fxml));
             Stage stage= new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -551,7 +552,7 @@ public class SistemaController implements Initializable {
     }
      @FXML 
     public void vAgregarProveedor(MouseEvent event){
-       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProveedor.fxml");
+       lanzarVentana("/view/agregarProveedor.fxml");
        AgregarProveedorController.listaProveedor = listaProveedor;
        
     }
@@ -568,7 +569,7 @@ public class SistemaController implements Initializable {
             }else{
              String rfc_p = prov.getRfc();
              ModificarProveedorController.rfc = rfc_p;
-             lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProveedor.fxml");
+             lanzarVentana("/view/modificarProveedor.fxml");
              ModificarProveedorController.listaProveedor = listaProveedor;
             }
         }catch(Exception e){
@@ -577,9 +578,14 @@ public class SistemaController implements Initializable {
     }
     
     private void agregarProducto(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarProducto.fxml");
+        lanzarVentana("/view/agregarProducto.fxml");
     }
-
+    @FXML
+    private void agregarEmpleado(MouseEvent event){
+        lanzarVentana("/view/agregarEmpleado.fxml");
+       AgregarEmpleadoController.listaEmp = listaEmpleado;
+        
+    }
 
     
     @FXML
@@ -596,7 +602,7 @@ public class SistemaController implements Initializable {
              String id = empleado.getId_e();
              int id_e = Integer.parseInt(id);
              ModificarEmpleadoController.id_eVar = id_e;
-             lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarEmpleado.fxml");
+             lanzarVentana("/view/modificarEmpleado.fxml");
              ModificarEmpleadoController.listaEmpleado = listaEmpleado;
             }
         }catch(Exception e){
@@ -618,7 +624,7 @@ public class SistemaController implements Initializable {
              String id = producto.getCodigo();
              //int id_p = Integer.parseInt(id);
             // ModificarProductoController.id_prod = id_p;
-             lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarProducto.fxml");
+             lanzarVentana("/view/modificarProducto.fxml");
              
             }
         }catch(Exception e){
@@ -639,17 +645,13 @@ public class SistemaController implements Initializable {
         }else{
             String rfc_c = cliente.getRFC();
             ModificarClienteController.rfc_cliente = rfc_c;  
-            lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\modificarCliente.fxml");
+            lanzarVentana("/view/modificarCliente.fxml");
             ModificarClienteController.listaCliente = listaCliente;
         }
     }
     
     
-    @FXML
-    private void agregarEmpleado(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarEmpleado.fxml");
-        AgregarClienteController.listaCliente = listaCliente;
-    }
+    
     
        
     @FXML 
@@ -833,7 +835,7 @@ public class SistemaController implements Initializable {
 
     @FXML
     private void vAgregarCliente(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarCliente.fxml");
+        lanzarVentana("/view/agregarCliente.fxml");
         AgregarClienteController.listaCliente = listaCliente;
     }
 
@@ -845,7 +847,7 @@ public class SistemaController implements Initializable {
 
     @FXML
     private void agregarCompra(MouseEvent event) {
-        lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\agregarCompra.fxml");
+        lanzarVentana("/view/agregarCompra.fxml");
         AgregarCompraController.listaCompra = listaCompra;
     }
 
@@ -895,7 +897,7 @@ public class SistemaController implements Initializable {
     @FXML 
     public void cerrarSesion(MouseEvent event) throws IOException{
        ((Node)  (event.getSource())).getScene().getWindow().hide();
-       lanzarVentana("C:\\Users\\Azael\\Documents\\Sistema\\src\\view\\Login.fxml");
+       lanzarVentana("/view/Login.fxml");
     }
 
     
